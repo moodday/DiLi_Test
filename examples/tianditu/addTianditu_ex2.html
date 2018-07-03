@@ -19,14 +19,35 @@
 <body>
 <div id="map" class="map"></div>
 <script>
+    //ol.proj.get(projectionLike),Fetches a Projection object for the code specified.
     var projection = ol.proj.get("EPSG:4326");
+    //ol.proj.Projection 的 getExtent(),Get the validity extent for this projection.得到该投影的有效范围.
     var projectionExtent = projection.getExtent();
+    //ol.extent.getWidth(extent),Get the width of an extent.
     var size = ol.extent.getWidth(projectionExtent) / 256;
     var resolutions = [];
+    var matrixIds = [];
+    /*
     for (var z = 2; z < 19; ++z) {
+        //document.writeln(Math.pow(2,z));
+        //Math 对象用于执行数学任务.pow(x,y) 方法返回 x 的 y 次幂,x、y必须为数字.
         resolutions[z] = size / Math.pow(2, z);
+        //document.writeln(resolutions[z])
+    }
+    */
+    for(var z =1; z < 18; ++z){
+        resolutions[z] = size / Math.pow(2, z);
+        matrixIds[z] = z;
+        //document.writeln(matrixIds[z])
     }
     var map = new ol.Map({
+        //Controls initially added to the map. If not specified, ol.control.defaults() is used.
+        controls: ol.control.defaults({
+            attribution: false
+        }).extend([
+            //A control to show the 2D coordinates of the mouse cursor. 
+            new ol.control.MousePosition()   //是否显示鼠标所在地图点的经纬度
+        ]),
         layers: [
             new ol.layer.Tile({
                 source: new ol.source.WMTS({
@@ -37,14 +58,23 @@
                     matrixSet: "c",
                     format: "tiles",
                     wrapX: true,
+                    //tileGrid: Tile grid. Required.瓦片网格.
+                    //ol.tileGrid.WMTS --Set the grid pattern for sources accessing WMTS tiled-image servers.
+                    //设置用于访问WMTS拼接图像服务器的源的网格模式。
                     tileGrid: new ol.tilegrid.WMTS({
+                        //The tile grid origin. 瓦片网格原点.
+                        //Tile coordinates increase left to right and upwards. If not specified, extent or origins must be provided.
                         origin: ol.extent.getTopLeft(projectionExtent),
                         //resolutions: res.slice(0, 15),
                         resolutions: resolutions,
-                        matrixIds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                        //matrix IDs. The length of this array needs to match the length of the resolutions array. Required.
+                        //矩阵IDs.此数组的长度需要与分辨率数组的长度匹配.这是必须的.
+                        //matrixIds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                        matrixIds:matrixIds
                     })
                 }),
             }),
+            /*
             new ol.layer.Tile({
                 source: new ol.source.WMTS({
                     name: "中国矢量注记1-4级",
@@ -61,15 +91,16 @@
                     })
                 }),
             })
+            */
  
         ],
         target: "map",
         view: new ol.View({
-            center: [120.14805, 30.26971],
+            center: [118.6691236495, 37.4337136745],
             projection: projection,
-            zoom: 3,
+            zoom: 15,
             maxZoom: 17,
-            minZoom: 1
+            minZoom: 8
         })
     });
 </script>
