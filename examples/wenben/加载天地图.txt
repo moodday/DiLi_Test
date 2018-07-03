@@ -1,0 +1,5 @@
+openlayers加载天地图WMTS服务
+https://blog.csdn.net/lucahan/article/details/79679959
+
+杭州市地理信息公共服务平台
+http://map.hzplanning.gov.cn/hzpublicmap/index.html

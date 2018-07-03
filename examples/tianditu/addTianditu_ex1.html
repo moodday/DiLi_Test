@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用OpenLayers 4.3.2加载天地图WMTS服务</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://cdn.bootcss.com/openlayers/4.3.2/ol-debug.js"></script>
+</head>
+<body>
+    <div id="map" style="height:400px;"></div>
+    <script type="text/javascript">
+        //wmts服务参数
+        var projection = ol.proj.get('EPSG:4326');
+        var projectionExtent = projection.getExtent();
+        var size = ol.extent.getWidth(projectionExtent) / 256;
+        var resolutions = new Array(18);
+        var matrixIds = new Array(18);
+        for (var z = 1; z <= 18; ++z) {
+            resolutions[z] = size / Math.pow(2, z);
+            matrixIds[z] = z;
+        }
+        //地图
+        var map = new ol.Map({
+            layers: [
+                new ol.layer.Tile({ //天地图矢量图
+                    source: new ol.source.WMTS({
+                        url: 'http://t1.tianditu.com/vec_c/wmts',
+                        layer: 'vec',
+                        matrixSet: 'c',
+                        format: 'tiles',
+                        projection: projection,
+                        tileGrid: new ol.tilegrid.WMTS({
+                            origin: ol.extent.getTopLeft(projectionExtent),
+                            resolutions: resolutions,
+                            matrixIds: matrixIds
+                        }),
+                        style: 'default'
+ 
+                    })
+                }),
+                new ol.layer.Tile({ //天地图矢量图标注
+                    source: new ol.source.WMTS({
+                        url: 'http://t1.tianditu.com/cva_c/wmts',
+                        layer: 'cva',
+                        matrixSet: 'c',
+                        format: 'tiles',
+                        projection: projection,
+                        tileGrid: new ol.tilegrid.WMTS({
+                            origin: ol.extent.getTopLeft(projectionExtent),
+                            resolutions: resolutions,
+                            matrixIds: matrixIds
+                        }),
+                        style: 'default'
+ 
+                    })
+                })
+            ],
+            target: 'map',
+            view: new ol.View({
+                center: [116.72996, 24.72346],
+                zoom: 4,
+                projection: "EPSG:4326"
+            })
+        });
+    </script>
+</body>
+</html>
