@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>加载天地图-山东-WMTS</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.3.1/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.3.1/build/ol.js"></script>
+</head>
+<style type="text/css">
+#map {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<body>
+    <div id="map" class="map"></div>
+    <script>
+    var projection = ol.proj.get('EPSG:4326');
+    //var projection = ol.proj.get('EPSG:3857');
+    var projectionExtent = projection.getExtent();
+    var size = ol.extent.getWidth(projectionExtent) / 256;
+    var resolutions = [];
+    var matrixIds = [];
+    for (var z = 2; z < 19; ++z) {
+        resolutions[z] = size / Math.pow(2, z);
+        matrixIds[z] = z;
+    }
+
+    var url = "http://www.sdmap.gov.cn/tileservice/SDPubMap";
+    var layers = [new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                url: url,
+                projection: projection,
+                style: 'default',
+                format: 'image/png',
+                matrixSet: "EPSG:4326",
+                layer: "sdvec",
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    resolutions: resolutions,
+                    matrixIds: matrixIds
+                }),
+            })
+        })];
+
+    var view = new ol.View({
+           projection: projection,//坐标系参数如果不设置，则默认为墨卡托
+           //resolutions:resolutions,//分辨率层级数组
+           //resolution: resolutions[8],//初始展示分辨率，若不设置该参数，则需设置zoom参数，否则地图无法加载
+           center: [118.6691236495, 37.4337136745],//必须参数，否则地图无法加载
+           zoom: 15,
+           maxZoom: 17,
+           minZoom: 8
+       })        
+
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        controls: ol.control.defaults({
+            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                collapsible: false
+            })
+        }),
+        view: view 
+    });
+    </script>
+</body>
+
+</html>

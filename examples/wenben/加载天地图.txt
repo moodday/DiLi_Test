@@ -15,3 +15,27 @@ https://blog.csdn.net/wo_buzhidao/article/details/79172343
 
 天地图离线瓦片的打包与发布（GeoServer）
 https://blog.csdn.net/qq_21231159/article/details/78294435
+
+在idesktop中加载天地图服务并叠加矢量数据,解决偏移问题
+https://www.cnblogs.com/pengjw/p/5325211.html
+
+OpenLayers 3 加载WMTS天地图 （天地图山东源）
+https://blog.csdn.net/qq_22267353/article/details/77529055
+
+OpenLayer加载常见在线地图案例
+https://blog.csdn.net/wo_buzhidao/article/details/79169608
+
+高德，百度，Google地图定位偏移以及坐标系转换
+https://blog.csdn.net/a13570320979/article/details/51366355
+
+使用OpenLayers加载高德离线地图简单实用
+https://blog.csdn.net/qq_25552049/article/details/79453414
+
+openlayers3加载各种底图，补齐中.
+https://blog.csdn.net/u014529917/article/details/52241389
+
+openlayers 3扩展，调用百度地图、高德地图、天地图服务
+https://blog.csdn.net/future_todo/article/details/67634139
+
+OpenLayers学习--加载指定等级指定范围的高德地图数据
+https://blog.csdn.net/devCopper/article/details/39506017
