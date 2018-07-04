@@ -1,0 +1,5 @@
+浙江省地理信息中心矢量切片试用版
+http://112.124.97.99:90/vectile/
+
+杭州市地理信息公共服务平台
+http://map.hzplanning.gov.cn/hzpublicmap/index.html

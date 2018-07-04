@@ -6,3 +6,12 @@ https://blog.csdn.net/shaxiaozilove/article/details/80371754
 
 �����е�����Ϣ��������ƽ̨
 http://map.hzplanning.gov.cn/hzpublicmap/index.html
+
+天地图POI搜索
+http://lbs.tianditu.gov.cn/server/search.html
+
+OpenLayer加载离线天地图切片
+https://blog.csdn.net/wo_buzhidao/article/details/79172343
+
+天地图离线瓦片的打包与发布（GeoServer）
+https://blog.csdn.net/qq_21231159/article/details/78294435

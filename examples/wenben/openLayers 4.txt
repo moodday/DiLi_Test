@@ -1,2 +1,5 @@
-openLayers 4 canvasÍ¼Àı»æÖÆ£¬canvasÑ­»·Ìí¼ÓÍ¼Æ¬£¬½â¾öÍ¼Æ¬ÉÁË¸ÎÊÌâ
+openLayers 4 canvasÍ¼ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½canvasÑ­ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½
 https://www.cnblogs.com/webonline/p/8337236.html
+
+openlayer4å…¥é—¨ç³»åˆ—ä¸€(åœ°å›¾æç»˜ç»çº¬åº¦ç‚¹)
+https://blog.csdn.net/qq_35257397/article/details/78520139
