@@ -1,5 +1,8 @@
-openlayers加载天地图WMTS服务
+openlayers锟斤拷锟斤拷锟斤拷锟酵糤MTS锟斤拷锟斤拷
 https://blog.csdn.net/lucahan/article/details/79679959
 
-杭州市地理信息公共服务平台
+OpenLayers鍔犺浇澶╁湴鍥炬柟娉曗�斺�擶MTS鍜孹YZ
+https://blog.csdn.net/shaxiaozilove/article/details/80371754
+
+锟斤拷锟斤拷锟叫碉拷锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷锟斤拷平台
 http://map.hzplanning.gov.cn/hzpublicmap/index.html
