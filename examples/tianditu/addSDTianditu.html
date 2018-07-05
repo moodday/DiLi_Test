@@ -29,22 +29,53 @@
         matrixIds[z] = z;
     }
 
-    var url = "http://www.sdmap.gov.cn/tileservice/SDPubMap";
-    var layers = [new ol.layer.Tile({
+    //var url = "http://www.sdmap.gov.cn/tileservice/SDPubMap";
+    var layers = [
+        
+        new ol.layer.Tile({
             source: new ol.source.WMTS({
-                url: url,
-                projection: projection,
+                name: "山东矢量地图",
+                url: "http://www.sdmap.gov.cn/tileservice/SDPubMap",
+                //url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
                 style: 'default',
-                format: 'image/png',
-                matrixSet: "EPSG:4326",
-                layer: "sdvec",
+                format: 'image/png',   //可以没有
+                matrixSet: "CGCS2000",   //发布的标识符矩阵集
+                //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
                 tileGrid: new ol.tilegrid.WMTS({
                     origin: ol.extent.getTopLeft(projectionExtent),
                     resolutions: resolutions,
                     matrixIds: matrixIds
+                    //resolutions: resolutions.slice(8,15),   //15层模糊
+                    //matrixIds: matrixIds.slice(8,15)
                 }),
             })
-        })];
+        }),
+        
+        /*
+        new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                name: "东营矢量地图",
+                url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
+                style: 'default',
+                format: 'image/png',
+                matrixSet: "CGCS2000",   //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    //resolutions: resolutions,
+                    //matrixIds: matrixIds
+                    resolutions: resolutions.slice(8,15),
+                    matrixIds: matrixIds.slice(8,15)
+                }),
+            })
+        })
+        */
+        ];
 
     var view = new ol.View({
            projection: projection,//坐标系参数如果不设置，则默认为墨卡托
@@ -52,7 +83,7 @@
            //resolution: resolutions[8],//初始展示分辨率，若不设置该参数，则需设置zoom参数，否则地图无法加载
            center: [118.6691236495, 37.4337136745],//必须参数，否则地图无法加载
            zoom: 15,
-           maxZoom: 17,
+           maxZoom: 18,
            minZoom: 8
        })        
 

@@ -3,3 +3,6 @@ http://112.124.97.99:90/vectile/
 
 杭州市地理信息公共服务平台
 http://map.hzplanning.gov.cn/hzpublicmap/index.html
+
+杭州规划局-城市一点通
+http://www.hzplanning.gov.cn/index.aspx?tabid=52f89c01-02d2-4351-8f11-f45d4786e8fe

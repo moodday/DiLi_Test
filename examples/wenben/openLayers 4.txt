@@ -3,3 +3,6 @@ https://www.cnblogs.com/webonline/p/8337236.html
 
 openlayer4入门系列一(地图描绘经纬度点)
 https://blog.csdn.net/qq_35257397/article/details/78520139
+
+open layer4加载wms
+https://blog.csdn.net/qq_31805885/article/details/78819222
