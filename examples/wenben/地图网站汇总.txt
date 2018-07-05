@@ -6,3 +6,8 @@ http://map.hzplanning.gov.cn/hzpublicmap/index.html
 
 杭州规划局-城市一点通
 http://www.hzplanning.gov.cn/index.aspx?tabid=52f89c01-02d2-4351-8f11-f45d4786e8fe
+
+
+http://gis.sdmap.gov.cn/tileservice/klmap?service=WMTS&request=GetCapabilities
+http://www.sdmap.gov.cn/tileservice/SDPubMap?service=WMTS&request=GetCapabilities
+http://124.128.48.217:6080/arcgis/services/tdt_government_wfs/MapServer/WFSServer?service=wfs&version=1.1.0&request=GetCapabilities
