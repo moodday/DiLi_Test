@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Load Events</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.2.0/build/ol.js"></script>
+    <style>
+      .map {
+        background: #E0ECED;
+      }
+      .wrapper {
+        position: relative;
+      }
+      #progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        background: rgba(0, 60, 136, 0.4);
+        width: 0;
+        transition: width 250ms;
+      }    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="map" class="map"></div>
+      <div id="progress"></div>
+    </div>
+    <script>
+      /**
+       * Renders a progress bar.
+       * 渲染一个进度条
+       * @param {Element} el The target element.
+       * @constructor
+       */
+      
+      function Progress(el) {
+        this.el = el;
+        this.loading = 0;
+        this.loaded = 0;
+      }
+ 
+ 
+      /**
+       * Increment the count of loading tiles.
+       * 加载瓦片时增加计数器
+       */
+      Progress.prototype.addLoading = function() {
+        if (this.loading === 0) {
+          this.show();
+        }
+        ++this.loading;
+        this.update();
+      };
+ 
+ 
+      /**
+       * Increment the count of loaded tiles.
+       * 瓦片加载完毕时增加计数器
+       */
+      Progress.prototype.addLoaded = function() {
+        var this_ = this;
+        setTimeout(function() {
+          ++this_.loaded;
+          this_.update();
+        }, 100);
+      };
+ 
+ 
+      /**
+       * Update the progress bar.
+       * 更新进度条
+       */
+      Progress.prototype.update = function() {
+        var width = (this.loaded / this.loading * 100).toFixed(1) + '%';
+        this.el.style.width = width;
+        if (this.loading === this.loaded) {
+          this.loading = 0;
+          this.loaded = 0;
+          var this_ = this;
+          setTimeout(function() {
+            this_.hide();
+          }, 500);
+        }
+      };
+ 
+ 
+      /**
+       * Show the progress bar.
+       * 显示进度条
+       */
+      Progress.prototype.show = function() {
+        this.el.style.visibility = 'visible';
+      };
+ 
+ 
+      /**
+       * Hide the progress bar.
+       * 隐藏进度条
+       */
+      Progress.prototype.hide = function() {
+        if (this.loading === this.loaded) {
+          this.el.style.visibility = 'hidden';
+          this.el.style.width = 0;
+        }
+      };
+ 
+      // 创建进度条
+      var progress = new Progress(document.getElementById('progress'));
+ 
+      // ImageWMS数据源
+      var source = new ol.source.ImageWMS({
+        url: 'https://ahocevar.com/geoserver/wms',
+        params: {'LAYERS': 'topp:states'},
+        serverType: 'geoserver'
+      });
+ 
+      // 图像开始加载事件
+      source.on('imageloadstart', function() {
+        progress.addLoading();
+      });
+ 
+      // 图像加载完成事件
+      source.on('imageloadend', function() {
+        progress.addLoaded();
+      });
+      
+      // 图像加载错误事件
+      source.on('imageloaderror', function() {
+        progress.addLoaded();
+      });
+ 
+      var map = new ol.Map({
+        logo: false,
+        layers: [
+          new ol.layer.Image({source: source})
+        ],
+        target: 'map',
+        view: new ol.View({
+          center: [-10997148, 4569099],
+          zoom: 4
+        })
+      });
+    </script>
+  </body>
+</html>

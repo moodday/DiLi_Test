@@ -1,2 +1,8 @@
 openlayer之加载wfs服务
 https://blog.csdn.net/qq_31805885/article/details/78820659
+
+Openlayers实现WFS服务及单击要素查询
+https://blog.csdn.net/sinat_28797501/article/details/76146804
+
+OpenLayers中TileWMS和ImageWMS的使用说明
+https://blog.csdn.net/shaxiaozilove/article/details/80372776

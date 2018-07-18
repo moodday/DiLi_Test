@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>加载天地图-山东-WMTS</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.3.1/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.3.1/build/ol.js"></script>
+
+    <link rel="stylesheet" href="../css/dygh.css" type="text/css">
+
+    <link rel="stylesheet" href="../zTree_v3-master/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../zTree_v3-master/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery.ztree.excheck.js"></script>
+</head>
+<style type="text/css">
+#map {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<body>
+    <!--<div class="div">
+        <div class="left">left</div>
+        <div id="map" class="map"></div>
+    </div>
+-->
+    <div id="map" class="map">
+        <div id="menu" class="maptree">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+    <SCRIPT type="text/javascript">
+		//<!--
+		var setting = {
+			view: {
+				selectedMulti: false
+			},
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeCheck: beforeCheck,
+				onCheck: onCheck
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"随意勾选 1", open:true},   //“"随意勾选 1”为treeNode.name
+			{ id:11, pId:1, name:"随意勾选 1-1"},
+			{ id:12, pId:1, name:"随意勾选 1-2", open:true},
+			{ id:121, pId:12, name:"随意勾选 1-2-1"},
+			{ id:122, pId:12, name:"随意勾选 1-2-2"},
+			{ id:2, pId:0, name:"禁止勾选 2", open:true, doCheck:false},  //doCheck:false表示“禁止勾选 2”及其子选项不能勾选
+			{ id:21, pId:2, name:"禁止勾选 2-1", doCheck:false},
+			{ id:22, pId:2, name:"禁止勾选 2-2", checked:true, open:true, doCheck:false},
+			{ id:221, pId:22, name:"禁止勾选 2-2-1", doCheck:false},
+			{ id:222, pId:22, name:"禁止勾选 2-2-2", checked:true, doCheck:false},
+			{ id:23, pId:2, name:"禁止勾选 2-3", doCheck:false}
+		];
+		
+		var code, log, className = "dark";
+		function beforeCheck(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			return (treeNode.doCheck !== false);
+		}
+		function onCheck(e, treeId, treeNode) {
+			showLog("[ "+getTime()+" onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			alert(treeNode.tld+","+treeNode.name+","+treeNode.checked);
+		}		
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 6) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+
+		function checkNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			type = e.data.type,
+			nodes = zTree.getSelectedNodes();
+			if (type.indexOf("All")<0 && nodes.length == 0) {
+				alert("请先选择一个节点");
+			}
+
+			if (type == "checkAllTrue") {
+				zTree.checkAllNodes(true);
+			} else if (type == "checkAllFalse") {
+				zTree.checkAllNodes(false);
+			} else {
+				var callbackFlag = $("#callbackTrigger").attr("checked");
+				for (var i=0, l=nodes.length; i<l; i++) {
+					if (type == "checkTrue") {
+						zTree.checkNode(nodes[i], true, false, callbackFlag);
+					} else if (type == "checkFalse") {
+						zTree.checkNode(nodes[i], false, false, callbackFlag);
+					} else if (type == "toggle") {
+						zTree.checkNode(nodes[i], null, false, callbackFlag);
+					}else if (type == "checkTruePS") {
+						zTree.checkNode(nodes[i], true, true, callbackFlag);
+					} else if (type == "checkFalsePS") {
+						zTree.checkNode(nodes[i], false, true, callbackFlag);
+					} else if (type == "togglePS") {
+						zTree.checkNode(nodes[i], null, true, callbackFlag);
+					}
+				}
+			}
+		}
+
+		function setAutoTrigger(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.setting.check.autoCheckTrigger = $("#autoCallbackTrigger").attr("checked");
+			$("#autoCheckTriggerValue").html(zTree.setting.check.autoCheckTrigger ? "true" : "false");
+		}
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			$("#checkTrue").bind("click", {type:"checkTrue"}, checkNode);
+			$("#checkFalse").bind("click", {type:"checkFalse"}, checkNode);
+			$("#toggle").bind("click", {type:"toggle"}, checkNode);
+			$("#checkTruePS").bind("click", {type:"checkTruePS"}, checkNode);
+			$("#checkFalsePS").bind("click", {type:"checkFalsePS"}, checkNode);
+			$("#togglePS").bind("click", {type:"togglePS"}, checkNode);
+			$("#checkAllTrue").bind("click", {type:"checkAllTrue"}, checkNode);
+			$("#checkAllFalse").bind("click", {type:"checkAllFalse"}, checkNode);
+
+			$("#autoCallbackTrigger").bind("change", {}, setAutoTrigger);
+		});
+		//-->
+	</SCRIPT>
+    <script>
+    var projection = ol.proj.get('EPSG:4326');
+    //var projection = ol.proj.get('EPSG:3857');
+    var projectionExtent = projection.getExtent();
+    var size = ol.extent.getWidth(projectionExtent) / 256;
+    var resolutions = [];
+    var matrixIds = [];
+    for (var z = 2; z < 19; ++z) {
+        resolutions[z] = size / Math.pow(2, z);
+        matrixIds[z] = z;
+    }
+
+    //var url = "http://www.sdmap.gov.cn/tileservice/SDPubMap";
+    var layers = [
+        
+        new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                name: "山东矢量地图",
+                url: "http://www.sdmap.gov.cn/tileservice/SDPubMap",
+                //url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
+                style: 'default',
+                format: 'image/png',   //可以没有
+                //matrixSet:"sdvec",
+                matrixSet: "CGCS2000",   //发布的标识符矩阵集
+                //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    resolutions: resolutions,
+                    matrixIds: matrixIds
+                    //resolutions: resolutions.slice(8,15),   //15层模糊
+                    //matrixIds: matrixIds.slice(8,15)
+                }),
+            })
+		}),
+		
+		/*
+        new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer",
+				params: {'LAYERS':[1],'TILED':true},				
+			})
+		}),
+		*/
+
+		/*
+		new ol.layer.Vector({
+			source: new ol.source.Vector({
+				format: new ol.format.GeoJSON(),
+				url: "http://124.128.48.217:6080/arcgis/services/tdt_education_wfs/MapServer/WFSServer"
+			})
+		})
+		*/
+
+        /*
+        new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                name: "东营矢量地图",
+                url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
+                style: 'default',
+                format: 'image/png',
+                matrixSet: "CGCS2000",   //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    //resolutions: resolutions,
+                    //matrixIds: matrixIds
+                    resolutions: resolutions.slice(8,15),
+                    matrixIds: matrixIds.slice(8,15)
+                }),
+            })
+        })
+        */
+		];
+	
+	var layersWMS = [
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer",
+				params: {'LAYERS':[1],'TILED':true},	
+			})
+		})
+	];
+
+	var layersWFS = [
+		new ol.layer.Vector({
+			source: new ol.source.Vector({
+				format: new ol.format.GeoJSON(),
+				url: "http://124.128.48.217:6080/arcgis/services/tdt_education_wfs/MapServer/WFSServer"
+			})
+		})
+	];
+
+    var view = new ol.View({
+           projection: projection,//坐标系参数如果不设置，则默认为墨卡托
+           //resolutions:resolutions,//分辨率层级数组
+           //resolution: resolutions[8],//初始展示分辨率，若不设置该参数，则需设置zoom参数，否则地图无法加载
+           center: [118.6691236495, 37.4337136745],//必须参数，否则地图无法加载
+           zoom: 15,
+           maxZoom: 18,
+           minZoom: 8
+       })        
+
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        controls: ol.control.defaults({
+            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                collapsible: false
+            })
+        }),
+        view: view 
+	});
+	//map.addLayer(layersWMS);
+    </script>
+</body>
+
+</html>

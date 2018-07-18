@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>加载天地图-山东-WMTS</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.3.1/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.3.1/build/ol.js"></script>
+
+    <link rel="stylesheet" href="../css/dygh.css" type="text/css">
+
+    <link rel="stylesheet" href="../zTree_v3-master/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../zTree_v3-master/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../zTree_v3-master/js/jquery.ztree.excheck.js"></script>
+</head>
+<style type="text/css">
+#map {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<body>
+    <!--<div class="div">
+        <div class="left">left</div>
+        <div id="map" class="map"></div>
+    </div>
+-->
+    <div id="map" class="map">
+        <div id="menu" class="maptree">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+    <SCRIPT type="text/javascript">
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+            },
+            /*
+            callback: {
+				beforeCheck: beforeCheck,
+				onCheck: onCheck
+            }
+            */
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"随意勾选 1", open:true},
+			{ id:11, pId:1, name:"随意勾选 1-1", open:true},
+			{ id:111, pId:11, name:"随意勾选 1-1-1"},
+			{ id:112, pId:11, name:"随意勾选 1-1-2"},
+			{ id:12, pId:1, name:"随意勾选 1-2", open:true},
+			{ id:121, pId:12, name:"随意勾选 1-2-1"},
+			{ id:122, pId:12, name:"随意勾选 1-2-2"},
+			{ id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+			{ id:21, pId:2, name:"随意勾选 2-1"},
+			{ id:22, pId:2, name:"随意勾选 2-2", open:true},
+			{ id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+			{ id:222, pId:22, name:"随意勾选 2-2-2"},
+			{ id:23, pId:2, name:"随意勾选 2-3"}
+		];
+		
+		var code;
+		
+		function setCheck() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			py = $("#py").attr("checked")? "p":"",
+			sy = $("#sy").attr("checked")? "s":"",
+			pn = $("#pn").attr("checked")? "p":"",
+			sn = $("#sn").attr("checked")? "s":"",
+			type = { "Y":py + sy, "N":pn + sn};
+			zTree.setting.check.chkboxType = type;
+			showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+		}
+		function showCode(str) {
+			if (!code) code = $("#code");
+			code.empty();
+			code.append("<li>"+str+"</li>");
+		}
+		
+		$(document).ready(function(){   //$(function() {}) 是$(document).ready(function()的简写。
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);   //zTree 初始化方法，创建 zTree 必须使用此方法
+			setCheck();
+			$("#py").bind("change", setCheck);
+			$("#sy").bind("change", setCheck);
+			$("#pn").bind("change", setCheck);
+			$("#sn").bind("change", setCheck);
+        })
+        
+        function onCheck(e, treeId, treeNode) {
+            //showLog("[ "+getTime()+" onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+            alert(treeNode.tld+","+treeNode.name+","+treeNode.checked);
+		};
+	</SCRIPT>
+    <script>
+    var projection = ol.proj.get('EPSG:4326');
+    //var projection = ol.proj.get('EPSG:3857');
+    var projectionExtent = projection.getExtent();
+    var size = ol.extent.getWidth(projectionExtent) / 256;
+    var resolutions = [];
+    var matrixIds = [];
+    for (var z = 2; z < 19; ++z) {
+        resolutions[z] = size / Math.pow(2, z);
+        matrixIds[z] = z;
+    }
+
+    //var url = "http://www.sdmap.gov.cn/tileservice/SDPubMap";
+    var layers = [
+        
+        new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                name: "山东矢量地图",
+                url: "http://www.sdmap.gov.cn/tileservice/SDPubMap",
+                //url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
+                style: 'default',
+                format: 'image/png',   //可以没有
+                //matrixSet:"sdvec",
+                matrixSet: "CGCS2000",   //发布的标识符矩阵集
+                //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    resolutions: resolutions,
+                    matrixIds: matrixIds
+                    //resolutions: resolutions.slice(8,15),   //15层模糊
+                    //matrixIds: matrixIds.slice(8,15)
+                }),
+            })
+        }),
+        
+        /*
+        new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                name: "东营矢量地图",
+                url: "http://60.214.233.45/tileservice/DYVectorMap",
+                //projection: projection,
+                style: 'default',
+                format: 'image/png',
+                matrixSet: "CGCS2000",   //CGCS2000是2000国家大地坐标系，属于地心大地坐标系统。CGCS2000的定义与WGS84实质一样。采用的参考椭球非常接近。
+                //matrixSet: "EPSG:4326",  //matrix set.EPSG:4326 即 WGS84，WGS(World Geodetic System)是世界大地测量系统
+                layer: "sdvec",   //sdvec改为任意字符串，不影响地图显示，为什么？
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projectionExtent),
+                    //resolutions: resolutions,
+                    //matrixIds: matrixIds
+                    resolutions: resolutions.slice(8,15),
+                    matrixIds: matrixIds.slice(8,15)
+                }),
+            })
+        })
+        */
+        ];
+
+    var view = new ol.View({
+           projection: projection,//坐标系参数如果不设置，则默认为墨卡托
+           //resolutions:resolutions,//分辨率层级数组
+           //resolution: resolutions[8],//初始展示分辨率，若不设置该参数，则需设置zoom参数，否则地图无法加载
+           center: [118.6691236495, 37.4337136745],//必须参数，否则地图无法加载
+           zoom: 15,
+           maxZoom: 18,
+           minZoom: 8
+       })        
+
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        controls: ol.control.defaults({
+            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                collapsible: false
+            })
+        }),
+        view: view 
+    });
+    </script>
+</body>
+
+</html>

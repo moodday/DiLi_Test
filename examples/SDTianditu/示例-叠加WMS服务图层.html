@@ -1,0 +1,93 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta name="keywords" content="天地图山东" /> 
+    <title>天地图山东地图API－示例－叠加WMS服务图层</title> 
+    <script src="http://www.sdmap.gov.cn/api/olapi/js/jquery-1.6.4.min.js"></script> 
+    <script type="text/javascript" src="http://www.sdmap.gov.cn/api/olapi/ol/openlayers.js"></script> 
+    <style type="text/css"> 
+body{width: 100%;height: 100%;position: absolute;margin: 0;} 
+#outter{height: 100%} 
+#mapDiv{height: 100%;width: 100%} 
+  
+#describediv { 
+    line-height: 26px; 
+    padding: 10px; 
+    font-size: 13px; 
+    background-color: #FFF; 
+    background-position: bottom left; 
+    background-repeat: repeat-x; 
+    background-image: url("http://www.sdmap.gov.cn/api/olapi/images/describebac.jpg"); 
+    border: solid 1px #808080; 
+    display: block; 
+    position: absolute; 
+    right: 36px; 
+    top: 60px; 
+    width: 260px; 
+    z-index: 1001; 
+    overflow-y: auto; 
+    -webkit-box-shadow: #4E4B4B 0px 3px 6px; 
+    -moz-box-shadow: #4E4B4B 0px 3px 6px; 
+    box-shadow: #4E4B4B 0px 3px 6px; 
+    z-index: 1003; 
+} 
+#reback{position: absolute;bottom: 10px;right: 100px;z-index: 1002;} 
+#reback a{background-color: #7D7D7D; padding: 10px;color: #FFF;} 
+ </style> 
+    <script type="text/javascript"> 
+        //定义地图和图层对象 
+        var map, wmsLayer; 
+        $(function () { 
+            map = new OpenLayers.Map("mapDiv", { 
+                allOverlays: true, 
+                numZoomLevels: 19, 
+                displayProjection: "EPSG:4490", 
+                controls: [ 
+                new OpenLayers.Control.Navigation(), 
+                new OpenLayers.Control.ArgParser(), 
+                new OpenLayers.Control.Attribution()] 
+            }); 
+ 
+            //加载山东线划地图 
+            map.addLayer(new SDTDTLayer()); 
+ 
+            map.setCenter(new OpenLayers.LonLat(119.00, 36.40), 8); 
+ 
+            document.getElementById("addSuperMapWMS").onclick = function () { 
+                if (map.getLayerIndex(wmsLayer) > -1) return; 
+ 
+                var params = { 
+                    LAYERS: [2], 
+                    TRANSPARENT: true, 
+                    STYLES: "", 
+                    FORMAT: "image/png" 
+                }; 
+                wmsLayer = new OpenLayers.Layer.WMS("山东行政区划地图", 
+                    "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer", 
+                    params, 
+                    { isBaseLayer: false, opacity: 0.8, singleTile: true }); 
+ 
+                map.addLayer(wmsLayer); 
+            }; 
+ 
+            document.getElementById("removeSuperMapWMS").onclick = function () { 
+                map.removeLayer(wmsLayer); 
+            }; 
+        }); 
+         
+    </script> 
+</head> 
+<body> 
+    <div id="outter"> 
+        <div id="mapDiv"> 
+        </div> 
+        <div id="describediv"> 
+            叠加WMS服务图层<br /> 
+            <input type="button" id="addSuperMapWMS" value="叠加WMS服务" /> 
+            <input type="button" id="removeSuperMapWMS" value="删除WMS服务" /> 
+        </div> 
+        <div id="close"> 
+        </div> 
+    <p id="reback"><a href="http://sdmap.gov.cn/API/olapi/api.html?index=1">返回所有范例列表</a></p> </div></body> 
+</html> 
