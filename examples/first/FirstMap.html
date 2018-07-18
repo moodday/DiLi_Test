@@ -29,8 +29,8 @@
             // 设置地图图层
             layers: [
               // 创建一个使用Open Street Map地图源的瓦片图层
-              //new ol.layer.Tile({source: new ol.source.OSM()})
-              
+              new ol.layer.Tile({source: new ol.source.OSM()}),
+              /*
               new ol.layer.Tile({
                   source: new ol.source.WMTS({
                       //url:'http://t{0-7}.tianditu.com/cva_c/wmts',
@@ -42,7 +42,7 @@
                       })
                   })
                   })
-                  
+                */  
             ],
             // 设置显示地图的视图
             view: new ol.View({

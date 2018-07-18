@@ -6,3 +6,9 @@ https://blog.csdn.net/sinat_28797501/article/details/76146804
 
 OpenLayers中TileWMS和ImageWMS的使用说明
 https://blog.csdn.net/shaxiaozilove/article/details/80372776
+
+openlayers3调用GeoServer发布的wfs
+https://blog.csdn.net/tuoxinquyu/article/details/76090821
+
+openlayer3加载geoserver发布的WFS服务
+https://blog.csdn.net/u013323965/article/details/52449502

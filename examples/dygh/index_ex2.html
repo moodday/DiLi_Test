@@ -255,7 +255,8 @@
        })        
 
     var map = new ol.Map({
-        layers: layers,
+        //layers: layers,
+		layers: layersWMS,
         target: 'map',
         controls: ol.control.defaults({
             attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
@@ -264,7 +265,6 @@
         }),
         view: view 
 	});
-	//map.addLayer(layersWMS);
     </script>
 </body>
 

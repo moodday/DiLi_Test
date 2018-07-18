@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Single Image WMS</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v5.0.3/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://openlayers.org/en/v5.0.3/build/ol.js"></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script>
+        
+        var layers = [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ];
+        
+        /*
+        var raster = new ol.layer.Tile({
+            source: new ol.source.BingMaps({
+                imagerySet: 'Aerial',
+                //key: 'Your Bing Maps Key from http://www.bingmapsportal.com/ here'
+                key: 'Ahqu07aAsoCYdFNK-ZxjvPysJHEcvRxvDYgOSf8wy0uLRBPZ5VORoDw2qZWE2Erj'
+            })
+        });
+        */
+        /*
+        var vector = new ol.layer.Vector({
+            source: new ol.source.VectorSource({
+                format: new ol.format.GeoJSON(),
+                url: function(extent){
+                    return 'https://ahocevar.com/geoserver/wfs?service=WFS&' +
+              'version=1.1.0&request=GetFeature&typename=osm:water_areas&' +
+              'outputFormat=application/json&srsname=EPSG:3857&' +
+              'bbox=' + extent.join(',') + ',EPSG:3857'
+                },
+                strategy: bboxStrategy
+            }),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 255, 1.0)',
+                    width: 2
+                })
+            })
+        });
+        */
+        var vectorsource = new ol.source.Vector({
+            format: new ol.format.GeoJSON(),
+            url: function(extent){
+                    return 'https://ahocevar.com/geoserver/wfs?service=WFS&' +
+              'version=1.1.0&request=GetFeature&typename=osm:water_areas&' +
+              'outputFormat=application/json&srsname=EPSG:3857&' +
+              'bbox=' + extent.join(',') + ',EPSG:3857'
+            },
+            strategy: new ol.loadingstrategy.bbox()
+        });
+        var vector = new ol.layer.Vector({
+            source: vectorsource,
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 255, 1.0)',
+                    width: 2
+                })
+            })
+        });
+        var map = new ol.Map({
+            layers: layers,
+            target: 'map',
+            view: new ol.View({
+                center: [-8908887.277395891, 5381918.072437216],
+                maxZoom: 19,
+                zoom: 12
+            })
+        })
+    </script>
+  </body>
+</html>
