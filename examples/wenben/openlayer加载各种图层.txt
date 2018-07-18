@@ -12,3 +12,6 @@ https://blog.csdn.net/tuoxinquyu/article/details/76090821
 
 openlayer3加载geoserver发布的WFS服务
 https://blog.csdn.net/u013323965/article/details/52449502
+
+OpenLayer3通过wfs修改Geoserver中图层要素
+https://blog.csdn.net/wo_buzhidao/article/details/79268902
