@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Single Image WMS</title>
+    <title>WFS</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v5.0.3/css/ol.css" type="text/css">
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://openlayers.org/en/v5.0.3/build/ol.js"></script>
@@ -12,11 +12,7 @@
     <div id="map" class="map"></div>
     <script>
         
-        var layers = [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            })
-        ];
+        
         
         /*
         var raster = new ol.layer.Tile({
@@ -55,7 +51,7 @@
               'outputFormat=application/json&srsname=EPSG:3857&' +
               'bbox=' + extent.join(',') + ',EPSG:3857'
             },
-            strategy: new ol.loadingstrategy.bbox()
+            strategy: ol.loadingstrategy.bbox()
         });
         var vector = new ol.layer.Vector({
             source: vectorsource,
@@ -66,9 +62,20 @@
                 })
             })
         });
+        /*
+        var layers = [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ];
+        */
+        var raster = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
         var map = new ol.Map({
-            layers: layers,
-            target: 'map',
+            //layers: layers,
+            layers: [raster],
+            target: document.getElementById('map'),
             view: new ol.View({
                 center: [-8908887.277395891, 5381918.072437216],
                 maxZoom: 19,
