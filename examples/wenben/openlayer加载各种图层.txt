@@ -1,3 +1,7 @@
+OpenLayers3应用
+http://www.itkeyword.com/doc/0830120295865620x783/OpenLayers-gis-OpenLayers3
+https://blog.csdn.net/sf2gis2/article/details/46702797
+
 openlayer之加载wfs服务
 https://blog.csdn.net/qq_31805885/article/details/78820659
 
@@ -30,6 +34,21 @@ https://blog.csdn.net/GISShiXiSheng/article/details/52159277
 
 使用openlayers3自带的功能，使用WFS对geoserver服务器进行空间查询
 https://blog.csdn.net/A741841403/article/details/52613426
+
+OpenLayers3显示PostGIS中的数据
+https://blog.csdn.net/hyj_13/article/details/45643559
+
+OpenLayers 3+Geoserver+PostGIS实现点击查询
+https://blog.csdn.net/freeland1/article/details/50937020?utm_source=itdadao&utm_medium=referral
+
+openlayers 加载瓦片详解一：加载瓦片的算法类（转自studypower的专栏）
+https://www.imooc.com/article/7467
+
+openlayers3 通过wfs请求方式添加矢量vector图层
+https://yq.aliyun.com/articles/17255
+
+
+
 
 
 
