@@ -15,3 +15,21 @@ https://blog.csdn.net/u013323965/article/details/52449502
 
 OpenLayer3通过wfs修改Geoserver中图层要素
 https://blog.csdn.net/wo_buzhidao/article/details/79268902
+
+关于ArcGIS Server的WMS+WFS的调用相关的内容
+https://wenku.baidu.com/view/485f71565901020206409c14.html
+
+Openlayers3 请求Geoserver带Filter的WFS查询
+https://blog.csdn.net/sinat_25295611/article/details/79044855
+
+OpenLayers中基于Filter的WFS查询
+https://blog.csdn.net/longshengguoji/article/details/39377931
+
+geoserver服务wfs之GetFeature
+https://blog.csdn.net/GISShiXiSheng/article/details/52159277
+
+使用openlayers3自带的功能，使用WFS对geoserver服务器进行空间查询
+https://blog.csdn.net/A741841403/article/details/52613426
+
+
+

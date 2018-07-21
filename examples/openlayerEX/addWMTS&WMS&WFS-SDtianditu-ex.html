@@ -51,13 +51,8 @@
             //该source不能使用ol.source.VectorSource({})
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
-                url: function(extent) {
-          return 'https://ahocevar.com/geoserver/wfs?service=WFS&' +
-              'version=1.1.0&request=GetFeature&typename=osm:water_areas&' +
-              'outputFormat=application/json&srsname=EPSG:3857&' +
-              'bbox=' + extent.join(',') + ',EPSG:3857';
-                },
-                strategy: ol.loadingstrategy.bbox()
+                url: 'http://124.128.48.217:6080/arcgis/services/tdt_tourist_wfs/MapServer/WFSServer',
+                //strategy: ol.loadingstrategy.bbox()
             }),
             
             style: new ol.style.Style({
@@ -85,7 +80,7 @@
             zoom: 15
         });
         var map = new ol.Map({
-            layers: [sdtdRaster,sdtdWMS],
+            layers: [sdtdRaster,sdtdWMS,sdtdWFS],
             target: 'map',
             view: view
         })
