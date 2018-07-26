@@ -9,3 +9,30 @@ https://wenku.baidu.com/view/e0b837086c85ec3a87c2c58a.html?sxts=1532159555941
 
 ArcGis添加 WFS 服务
 http://pro.arcgis.com/zh-cn/pro-app/help/data/services/add-wfs-services.htm
+
+
+ArcGIS线转面的方法
+https://www.cnblogs.com/upgis/p/3897469.html
+
+
+Tiff、jpg图片怎么样添加地理坐标信息
+https://blog.csdn.net/shumu_xzw/article/details/49001211
+
+ArcGIS中如何将JPG转为TIFF格式
+https://jingyan.baidu.com/article/e5c39bf5fb582739d760332e.html
+
+
+geoServer 发布geoTiff格式的DEM数据
+https://blog.csdn.net/u014177758/article/details/73250875
+
+tiff和geotiff格式分析
+https://www.cnblogs.com/arxive/p/6746570.html
+
+如何将JPG格式的图片转化为带地理坐标的TIFF格式
+https://www.cnblogs.com/TechSnail/p/3204944.html
+
+坐标系统详解
+https://blog.csdn.net/sf2gis2/article/details/47721845
+
+我国常用的地理和投影坐标系的WKID
+https://www.cnblogs.com/liweis/p/5951032.html
