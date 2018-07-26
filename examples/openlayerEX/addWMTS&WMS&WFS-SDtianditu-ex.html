@@ -36,14 +36,42 @@
             })
         });
         var sdtdsourceWMS = new ol.source.TileWMS({
+            name: "山东行政区划图",
             url: "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer",
             params: {'LAYERS':[1],'TILED':true}
         });
+<<<<<<< HEAD
         //测试本地数据
         var testWMS = new ol.source.TileWMS({
             url: "http://localhost:8080/geoserver/dygh/ows?SERVICE=WMS",
             params: {'LAYERS':'ShouZhan-PianQu-2010','TILED':false}
         });
+=======
+        var sdtdRaster = new ol.layer.Tile({
+            source: sdtdsourceWMTS
+        });
+        var sdtdWMS = new ol.layer.Tile({
+            source: sdtdsourceWMS
+        });
+        var sdtdWFS = new ol.layer.Vector({
+            
+            //该source不能使用ol.source.VectorSource({})
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: 'http://124.128.48.217:6080/arcgis/services/tdt_tourist_wfs/MapServer/WFSServer',
+                //strategy: ol.loadingstrategy.bbox()
+            }),
+            
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 255, 1.0)',
+                    width: 2
+                })
+            })
+        })
+        /*
+        //sdtdRaster 不是layers，应注意
+>>>>>>> origin/master
         var layers = [
             new ol.layer.Tile({
                 source: sdtdsourceWMTS,
@@ -52,6 +80,7 @@
                 source: testWMS
             })
         ];
+        */
         var view = new ol.View({
             //projection 必须有
             projection: projection,
@@ -59,7 +88,7 @@
             zoom: 15
         });
         var map = new ol.Map({
-            layers: layers,
+            layers: [sdtdRaster,sdtdWMS,sdtdWFS],
             target: 'map',
             view: view
         })

@@ -13,8 +13,8 @@
     <script>
         
         
+        //import {bbox as bboxStrategy} from 'G:/WebGis/DiLi_test/examples/openlayerEX/ol/loadingstrategy.js';
         
-        /*
         var raster = new ol.layer.Tile({
             source: new ol.source.BingMaps({
                 imagerySet: 'Aerial',
@@ -22,7 +22,7 @@
                 key: 'Ahqu07aAsoCYdFNK-ZxjvPysJHEcvRxvDYgOSf8wy0uLRBPZ5VORoDw2qZWE2Erj'
             })
         });
-        */
+        
         /*
         var vector = new ol.layer.Vector({
             source: new ol.source.VectorSource({
@@ -33,7 +33,7 @@
               'outputFormat=application/json&srsname=EPSG:3857&' +
               'bbox=' + extent.join(',') + ',EPSG:3857'
                 },
-                strategy: bboxStrategy
+                strategy: ol.loadingstrategy.bbox()
             }),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
@@ -43,6 +43,7 @@
             })
         });
         */
+        
         var vectorsource = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
             url: function(extent){
@@ -51,7 +52,8 @@
               'outputFormat=application/json&srsname=EPSG:3857&' +
               'bbox=' + extent.join(',') + ',EPSG:3857'
             },
-            strategy: ol.loadingstrategy.bbox()
+            //strategy: bboxStrategy
+            //strategy: ol.loadingstrategy.bbox(extent, resolution)
         });
         var vector = new ol.layer.Vector({
             source: vectorsource,
@@ -62,6 +64,7 @@
                 })
             })
         });
+        
         /*
         var layers = [
             new ol.layer.Tile({
@@ -69,12 +72,12 @@
             })
         ];
         */
-        var raster = new ol.layer.Tile({
+        var rasterOSM = new ol.layer.Tile({
             source: new ol.source.OSM()
         })
         var map = new ol.Map({
             //layers: layers,
-            layers: [raster],
+            layers: [raster,vector],
             target: document.getElementById('map'),
             view: new ol.View({
                 center: [-8908887.277395891, 5381918.072437216],
