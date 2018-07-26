@@ -39,12 +39,17 @@
             url: "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer",
             params: {'LAYERS':[1],'TILED':true}
         });
+        //测试本地数据
+        var testWMS = new ol.source.TileWMS({
+            url: "http://localhost:8080/geoserver/dygh/ows?SERVICE=WMS",
+            params: {'LAYERS':'ShouZhan-PianQu-2010','TILED':false}
+        });
         var layers = [
             new ol.layer.Tile({
                 source: sdtdsourceWMTS,
             }),
             new ol.layer.Tile({
-                source: sdtdsourceWMS
+                source: testWMS
             })
         ];
         var view = new ol.View({
