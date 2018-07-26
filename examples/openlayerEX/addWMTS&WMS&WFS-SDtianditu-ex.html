@@ -35,20 +35,38 @@
                 matrixIds: matrixIds 
             })
         });
+
+        var sdRsterSourceWMTS = new ol.source.WMTS({
+            name: "山东影像地图",
+            url: "http://www.sdmap.gov.cn/tileservice/SDRasterPubMap",
+            style: 'default',
+            //format: 'image/png',
+            matrixSet: "CGCS2000",
+            layer: "sdimg",   //sdimg改为其他内容都可以正常显示影像，不知道为什么？
+            tileGrid: new ol.tilegrid.WMTS({
+                origin: ol.extent.getTopLeft(projectionExtent),
+                resolutions: resolutions,
+                matrixIds: matrixIds 
+            })
+        });
+        
         var sdtdsourceWMS = new ol.source.TileWMS({
             name: "山东行政区划图",
             url: "http://124.128.48.217:6080/arcgis/services/sdxzj/MapServer/WMSServer",
             params: {'LAYERS':[1],'TILED':true}
         });
-<<<<<<< HEAD
+
         //测试本地数据
         var testWMS = new ol.source.TileWMS({
             url: "http://localhost:8080/geoserver/dygh/ows?SERVICE=WMS",
             params: {'LAYERS':'ShouZhan-PianQu-2010','TILED':false}
         });
-=======
-        var sdtdRaster = new ol.layer.Tile({
+        
+        var sdtdTileWMTS = new ol.layer.Tile({
             source: sdtdsourceWMTS
+        });
+        var sdRasterTileWMTS = new ol.layer.Tile({
+            source: sdRsterSourceWMTS
         });
         var sdtdWMS = new ol.layer.Tile({
             source: sdtdsourceWMS
@@ -70,8 +88,7 @@
             })
         })
         /*
-        //sdtdRaster 不是layers，应注意
->>>>>>> origin/master
+        //sdtdTileWMTS 不是layers，应注意
         var layers = [
             new ol.layer.Tile({
                 source: sdtdsourceWMTS,
@@ -88,7 +105,7 @@
             zoom: 15
         });
         var map = new ol.Map({
-            layers: [sdtdRaster,sdtdWMS,sdtdWFS],
+            layers: [sdtdTileWMTS,sdRasterTileWMTS,sdtdWMS,sdtdWFS],
             target: 'map',
             view: view
         })

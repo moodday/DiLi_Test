@@ -23,3 +23,9 @@ https://blog.csdn.net/sf2gis2/article/details/47721845
 
 我国常用的地理和投影坐标系的WKID
 https://www.cnblogs.com/liweis/p/5951032.html
+
+OpenLayers调用ArcGIS Server发布的WFS服务
+https://wenku.baidu.com/view/66e2a44e58fafab068dc0219.html?rec_flag=default
+
+关于ArcGIS Server的WMS+WFS的调用相关的内容
+https://wenku.baidu.com/view/485f71565901020206409c14.html

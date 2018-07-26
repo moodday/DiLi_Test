@@ -47,7 +47,11 @@ https://www.imooc.com/article/7467
 openlayers3 通过wfs请求方式添加矢量vector图层
 https://yq.aliyun.com/articles/17255
 
+OpenLayers3基础教程之图层控件
+https://blog.csdn.net/cj9551/article/details/79119389
 
+读书笔记(2) OpenLayers中的图层
+https://www.cnblogs.com/nianming/archive/2012/07/22/2604205.html
 
 
 
