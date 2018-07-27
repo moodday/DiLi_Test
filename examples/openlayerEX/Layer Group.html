@@ -140,6 +140,7 @@
         visibilityInput.on('change', function() {
           layer.setVisible(this.checked);
         });
+        //prop是从属性对象中取值，属性对象中有多少属性，就能获取多少值，不需要在页面中显示定义
         visibilityInput.prop('checked', layer.getVisible());
 
         var opacityInput = $(layerid + ' input.opacity');
@@ -151,7 +152,7 @@
       //map.getLayers()获取所有的图层对象
       map.getLayers().forEach(function(layer, i) {
         bindInputs('#layer' + i, layer);
-        if (layer instanceof Group) {
+        if (layer instanceof ol.layer.Group) {
           layer.getLayers().forEach(function(sublayer, j) {
             bindInputs('#layer' + i + j, sublayer);
           });

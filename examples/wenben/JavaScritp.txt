@@ -1,0 +1,5 @@
+js中prop和attr区别
+https://blog.csdn.net/wangdachui95345/article/details/53389257
+
+jquery中attr和prop的区别
+https://blog.csdn.net/m0_37204491/article/details/65437203
