@@ -53,6 +53,12 @@ https://blog.csdn.net/cj9551/article/details/79119389
 读书笔记(2) OpenLayers中的图层
 https://www.cnblogs.com/nianming/archive/2012/07/22/2604205.html
 
+OpenLayers 比较有用的对象和属性
+https://www.cnblogs.com/w-wanglei/p/6538061.html
+
+ArcGIS api for javascript+jquery实现简单的图层控制切换
+https://blog.csdn.net/qq_31432985/article/details/77540398
+
 
 
 
