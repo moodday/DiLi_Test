@@ -49,6 +49,20 @@
                 matrixIds: matrixIds 
             })
         });
+
+        var sdRSAnnoSourceWMTS = new ol.source.WMTS({
+            name: "山东影像注记",
+            url: "http://www.sdmap.gov.cn/tileservice/SDRasterPubMapDJ",
+            style: 'default',
+            //format: 'image/png',
+            matrixSet: "CGCS2000",
+            layer: "sdcia",   //sdimg改为其他内容都可以正常显示影像，不知道为什么？
+            tileGrid: new ol.tilegrid.WMTS({
+                origin: ol.extent.getTopLeft(projectionExtent),
+                resolutions: resolutions,
+                matrixIds: matrixIds 
+            })
+        });
         
         var sdtdsourceWMS = new ol.source.TileWMS({
             name: "山东行政区划图",
@@ -70,6 +84,9 @@
         });
         var sdtdWMS = new ol.layer.Tile({
             source: sdtdsourceWMS
+        });
+        var sdRSAnnoWMTS = new ol.layer.Tile({
+            source: sdRSAnnoSourceWMTS
         });
         var sdtdWFS = new ol.layer.Vector({
             
@@ -105,7 +122,7 @@
             zoom: 15
         });
         var map = new ol.Map({
-            layers: [sdtdTileWMTS,sdRasterTileWMTS,sdtdWMS,sdtdWFS],
+            layers: [sdtdTileWMTS,sdRasterTileWMTS,sdRSAnnoWMTS,sdtdWMS,sdtdWFS],
             target: 'map',
             view: view
         })

@@ -59,6 +59,12 @@ https://www.cnblogs.com/w-wanglei/p/6538061.html
 ArcGIS api for javascript+jquery实现简单的图层控制切换
 https://blog.csdn.net/qq_31432985/article/details/77540398
 
+openlayer 系列二(地图切换控件)
+https://blog.csdn.net/qq_35257397/article/details/78626343
+
+项目中应用到的框架和技术之二——ol3-ext
+https://www.cnblogs.com/conorpai/p/6595751.html
+
 
 
 

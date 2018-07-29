@@ -105,35 +105,7 @@
                 zoom: 4
             })
         });
-        /*
-      var map = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM()
-          }), new LayerGroup({
-            layers: [
-              new TileLayer({
-                source: new TileJSON({
-                  url: 'https://api.tiles.mapbox.com/v3/mapbox.20110804-hoa-foodinsecurity-3month.json?secure',
-                  crossOrigin: 'anonymous'
-                })
-              }),
-              new TileLayer({
-                source: new TileJSON({
-                  url: 'https://api.tiles.mapbox.com/v3/mapbox.world-borders-light.json?secure',
-                  crossOrigin: 'anonymous'
-                })
-              })
-            ]
-          })
-        ],
-        target: 'map',
-        view: new View({
-          center: fromLonLat([37.40570, 8.81566]),
-          zoom: 4
-        })
-      });
-      */
+       
 
       function bindInputs(layerid, layer) {
         var visibilityInput = $(layerid + ' input.visible');
