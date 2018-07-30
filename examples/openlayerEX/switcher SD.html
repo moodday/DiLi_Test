@@ -159,10 +159,15 @@
         });
 
         //测试本地数据
-        var testWMS = new ol.source.TileWMS({
+        var SzKg2010SourceWMS = new ol.source.TileWMS({
             url: "http://localhost:8080/geoserver/dygh/ows?SERVICE=WMS",
             params: {'LAYERS':'ShouZhan-PianQu-2010','TILED':false}
         });
+		var ZxcZG2020SourceWMS = new ol.source.TileWMS({
+			//name: '中心城总体规划2011-2020，2016年批复',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'dygh:zg2020-tif','TILED':false}
+		});
         
         var sdtdTileWMTS = new ol.layer.Tile({
 			title: "山东矢量图",
@@ -180,6 +185,14 @@
 			title: "山东影像注记",
             source: sdRSAnnoSourceWMTS
         });
+		var SzKg2010TileWMS = new ol.layer.Tile({
+			title: '首站片区控规2010',
+            source: SzKg2010SourceWMS
+        });
+		var ZxcZG2020TileWMS = new ol.layer.Tile({
+			title: '中心城总体规划2020',
+            source: ZxcZG2020SourceWMS
+        });
         var sdtdWFS = new ol.layer.Vector({
             
             //该source不能使用ol.source.VectorSource({})
@@ -195,7 +208,7 @@
                     width: 2
                 })
             })
-        })
+        });
         /*
         //sdtdTileWMTS 不是layers，应注意
         var layers = [
@@ -213,11 +226,17 @@
             center: [118.6691236495, 37.4337136745],
             zoom: 15
         });
-
+		
+		var specialLayers = new ol.layer.Group({
+			title: "专题规划",
+			openInLayerSwitcher: true,
+			layers: [SzKg2010TileWMS]
+		});
+		
 	// A group layer for base layers
 	var baseLayers = new ol.layer.Group(
-		{   title: 'Base Layers',
-		    //Group的property属性openInLayerSwitcher
+		{   title: '基础底图',
+		    //Group的property(属性)openInLayerSwitcher,true表示展开，false表示关闭
 			openInLayerSwitcher: true,
 			layers: [sdtdTileWMTS,sdRasterTileWMTS,sdRSAnnoWMTS,sdtdWMS],
 		});
@@ -274,7 +293,7 @@
 			([	// Add a new Layerswitcher to the map
 				new ol.control.LayerSwitcher()
 			]),
-			layers: [ baseLayers, mapbox, brgm, labels ]
+			layers: [ baseLayers,specialLayers, mapbox, labels , ZxcZG2020TileWMS ]
 		});
 	// Add a layer switcher outside the map
 	var switcher = new ol.control.LayerSwitcher(
