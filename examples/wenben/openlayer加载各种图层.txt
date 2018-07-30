@@ -65,6 +65,9 @@ https://blog.csdn.net/qq_35257397/article/details/78626343
 项目中应用到的框架和技术之二——ol3-ext
 https://www.cnblogs.com/conorpai/p/6595751.html
 
+OpenLayers学习笔记1——实现WMTS的逐级无缝缩放
+http://www.mamicode.com/info-detail-668541.html
+
 
 
 

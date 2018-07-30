@@ -8,10 +8,12 @@
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://cdn.bootcss.com/openlayers/4.3.2/ol-debug.js"></script>
+    <script src="../SDTianditu/openlayers.js"></script>
 </head>
 <body>
     <div id="map" style="height:400px;"></div>
     <script type="text/javascript">
+        /*
         //wmts服务参数
         var projection = ol.proj.get('EPSG:4326');
         var projectionExtent = projection.getExtent();
@@ -65,6 +67,21 @@
                 projection: "EPSG:4326"
             })
         });
+        */
+        var map;
+        $(function () { 
+            map = new OpenLayers.Map("map", { 
+                allOverlays: true, 
+                numZoomLevels: 19, 
+                displayProjection: "EPSG:4490", 
+                controls: [ 
+                new OpenLayers.Control.Navigation(), 
+                new OpenLayers.Control.ArgParser(), 
+                new OpenLayers.Control.Attribution()] 
+            }); 
+            map.addLayer(new SDTDTLayer()); 
+            map.setCenter(new OpenLayers.LonLat(119.00, 36.40), 8); 
+        }); 
     </script>
 </body>
 </html>

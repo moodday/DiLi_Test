@@ -1,0 +1,42 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta name="keywords" content="天地图山东" /> 
+    <title>天地图山东地图API－示例－WMTS图层加载</title> 
+    <script src="http://www.sdmap.gov.cn/api/olapi/js/jquery-1.6.4.min.js"></script> 
+    <script type="text/javascript" src="../SDTianditu/openlayers.js"></script> 
+   <style type="text/css"> 
+body{width: 100%;height: 100%;position: absolute;margin: 0;} 
+
+#map{height: 100%;width: 100%} 
+  
+
+
+ </style> 
+    <script type="text/javascript"> 
+        //定义地图对象 
+        var map; 
+        $(function () { 
+            map = new OpenLayers.Map("map", { 
+                allOverlays: true, 
+                numZoomLevels: 19, 
+                displayProjection: "EPSG:4490", 
+                controls: [ 
+                new OpenLayers.Control.Navigation(), 
+                new OpenLayers.Control.ArgParser(), 
+                new OpenLayers.Control.Attribution()] 
+            }); 
+            map.addLayer(new SDTDTLayer()); 
+            map.setCenter(new OpenLayers.LonLat(118.6691236495, 37.4337136745), 15); 
+        }); 
+    </script> 
+</head> 
+<body> 
+
+        <div id="map"> 
+        </div> 
+
+
+</body> 
+</html> 
