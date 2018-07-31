@@ -68,6 +68,14 @@ https://www.cnblogs.com/conorpai/p/6595751.html
 OpenLayers学习笔记1——实现WMTS的逐级无缝缩放
 http://www.mamicode.com/info-detail-668541.html
 
+OpenLayers 3 之 地图图层数据来源（ol.source）详解
+https://www.cnblogs.com/kubimiantiao/p/6380571.html
 
+【学习笔记之Openlayers3】查询分析篇（第五篇）
+https://blog.csdn.net/u013420816/article/details/55001532
 
+OpenLayers：创建地图对比窗口（双地图对比）
+https://blog.csdn.net/u013925989/article/details/46878645
 
+Openlayers之视图联动
+https://blog.csdn.net/SmileCoffin/article/details/56282921

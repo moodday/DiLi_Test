@@ -3,3 +3,9 @@ https://blog.csdn.net/supermapsupport/article/details/76806670
 
 GeoServer中WMS、WFS的请求规范
 https://blog.csdn.net/u014529917/article/details/54907300
+
+天地图WMTS服务与卫星图匹配及投影坐标变换
+http://blog.sina.com.cn/s/blog_60abbd570102wnhh.html
+
+访问WMTS的地图
+https://blog.csdn.net/qq_20337985/article/details/60874353

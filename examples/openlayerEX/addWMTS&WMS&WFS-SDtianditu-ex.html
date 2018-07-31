@@ -11,7 +11,10 @@
   <body>
     <div id="map" class="map"></div>
     <script>
-        
+        /*
+        重点理解： 1、当前图层的分辨率数组信息,和matrixIds一样，需要用户从wmts服务获取并明确设置,resolutions数组和matrixIds数组长度相同 
+        2、你不必填写所有的分辨率，可以自定义缩放级别，但是得保证resolutions数组的值与matrixIds数组中的identifier是一一对应的；同时当你的地图的全幅范围不是默认的全球范围时，需要设置map.maxExtent为相应的值。
+        */
         var projection = ol.proj.get('EPSG:4326');
         var projectionExtent = projection.getExtent();
         var size = ol.extent.getWidth(projectionExtent) / 256;

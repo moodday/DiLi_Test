@@ -150,6 +150,20 @@
                 resolutions: resolutions,
                 matrixIds: matrixIds 
             })
+		});
+		
+		var sddyRSAnnoSourceWMTS = new ol.source.WMTS({
+            name: "东营影像注记",
+            url: "http://60.214.233.45/tileservice/DYRasterNoteMap",
+            style: 'default',
+            format: 'image/png',
+            matrixSet: "CGCS2000",
+            layer: "sdcia",   //sdimg改为其他内容都可以正常显示影像，不知道为什么？
+            tileGrid: new ol.tilegrid.WMTS({
+                origin: ol.extent.getTopLeft(projectionExtent),
+                resolutions: resolutions,
+                matrixIds: matrixIds 
+            })
         });
         
         var sdtdsourceWMS = new ol.source.TileWMS({
@@ -180,6 +194,7 @@
         });
         var sdRasterTileWMTS = new ol.layer.Tile({
 			title: "山东影像地图",
+			visible: false,
             source: sdRsterSourceWMTS
         });
         var sdtdWMS = new ol.layer.Tile({
@@ -188,18 +203,27 @@
         });
         var sdRSAnnoWMTS = new ol.layer.Tile({
 			title: "山东影像注记",
+			visible: false,
             source: sdRSAnnoSourceWMTS
+		});
+		var sddyRSAnnoWMTS = new ol.layer.Tile({
+			title: "东营影像注记",
+			visible: false,
+            source: sddyRSAnnoSourceWMTS
         });
 		var SzKg2010TileWMS = new ol.layer.Tile({
 			title: '首站片区控规2010',
+			visible: false,
             source: SzKg2010SourceWMS
         });
 		var ZxcZG2020TileWMS = new ol.layer.Tile({
 			title: '中心城总体规划2020',
+			visible: false,
             source: ZxcZG2020SourceWMS
 		});
 		var SLGYTileWMS = new ol.layer.Tile({
 			title: '胜利公园片区控规',
+			visible: false,
             source: SLGYSourceWMS
         });
         var sdtdWFS = new ol.layer.Vector({
@@ -233,7 +257,9 @@
             //projection 必须有
             projection: projection,
             center: [118.6691236495, 37.4337136745],
-            zoom: 15
+			zoom: 15,
+			maxZoom: 18,
+			minZoom:8
         });
 		
 		var specialLayers = new ol.layer.Group({
@@ -247,7 +273,7 @@
 		{   title: '基础底图',
 		    //Group的property(属性)openInLayerSwitcher,true表示展开，false表示关闭
 			openInLayerSwitcher: true,
-			layers: [sdtdTileWMTS,sdRasterTileWMTS,sdRSAnnoWMTS,sdtdWMS],
+			layers: [sdtdTileWMTS,sdRasterTileWMTS,sdRSAnnoWMTS,sddyRSAnnoWMTS,sdtdWMS],
 		});
 	// A layer with minResolution (hidden on hight zoom level)
 	var mapbox = new ol.layer.Tile(
@@ -301,7 +327,9 @@
 			controls: ol.control.defaults().extend
 			([	// Add a new Layerswitcher to the map
 				new ol.control.LayerSwitcher(),
-				new ol.control.MousePosition()
+				new ol.control.MousePosition(),
+				new ol.control.ScaleLine(),
+				new ol.control.FullScreen(),
 			]),
 			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, mapbox, labels ]
 		});

@@ -235,11 +235,26 @@
 		})
 	];
 
+	/*
+	山东旅游景点：
+	http://124.128.48.217:6080/arcgis/services/tdt_tourist_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=GetCapabilities
+	http://124.128.48.217:6080/arcgis/services/tdt_tourist_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=DescribeFeatureType&typeName=TouristAttractions
+	http://124.128.48.217:6080/arcgis/services/tdt_tourist_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=GetFeature&typeName=tdt_tourist_wfs:TouristAttractions&srsname=EPSG:4490
+	山东服务区：
+	http://124.128.48.217:6080/arcgis/services/tdt_servicearea_wfs/MapServer/WFSServer?service=WFS&request=GetCapabilities
+	http://124.128.48.217:6080/arcgis/services/tdt_servicearea_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=DescribeFeatureType&typeName=ServiceArea
+	http://124.128.48.217:6080/arcgis/services/tdt_servicearea_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=GetFeature&typeName=tdt_servicearea_wfs:ServiceArea&srsname=EPSG:4490
+	山东收费站：
+	山东政法机关：
+	山东教育：
+	山东医院：
+	*/
+
 	var layersWFS = [
 		new ol.layer.Vector({
 			source: new ol.source.Vector({
 				format: new ol.format.GeoJSON(),
-				url: "http://124.128.48.217:6080/arcgis/services/tdt_education_wfs/MapServer/WFSServer"
+				url: "http://124.128.48.217:6080/arcgis/services/tdt_servicearea_wfs/MapServer/WFSServer?service=WFS&version=1.1.0&request=GetFeature&typeName=tdt_servicearea_wfs:ServiceArea&srsname=EPSG:4490"
 			})
 		})
 	];

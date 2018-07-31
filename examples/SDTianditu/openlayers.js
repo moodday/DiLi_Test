@@ -39043,3 +39043,57 @@ SDRSAnnoLayer = OpenLayers.Class(OpenLayers.Layer.WMTS, {
         OpenLayers.Layer.WMTS.prototype.initialize.apply(this, [A])
     }
 });
+
+//天地图东营
+SDDYTDTLayer = OpenLayers.Class(OpenLayers.Layer.WMTS, {
+    initialize: function() {
+        var A = {
+            name: "东营电子地图",
+            url: "http://60.214.233.45/tileservice/DYVectorMap",
+            layer: "电子地图",
+            style: "default",
+            matrixSet: "DYVectorMap",
+            format: "image/png"
+        };
+        OpenLayers.Layer.WMTS.prototype.initialize.apply(this, [A])
+    }
+});
+SDDYRasterLayer = OpenLayers.Class(OpenLayers.Layer.WMTS, {
+    initialize: function() {
+        var A = {
+            name: "东营影像地图（主城区）",
+            url: "http://60.214.233.45/tileservice/DYRasterMap",
+            layer: "影像地图",
+            style: "default",
+            matrixSet: "DYRasterMap",
+            format: "image/png"
+        };
+        OpenLayers.Layer.WMTS.prototype.initialize.apply(this, [A])
+    }
+});
+SDDYTDAnnoLayer = OpenLayers.Class(OpenLayers.Layer.WMTS, {
+    initialize: function() {
+        var A = {
+            name: "东营电子地图注记（主城区）",
+            url: "http://60.214.233.45/tileservice/DYVectorNoteMap",
+            layer: "电子地图",
+            style: "default",
+            matrixSet: "DYVectorNoteMap",
+            format: "image/png"
+        };
+        OpenLayers.Layer.WMTS.prototype.initialize.apply(this, [A])
+    }
+});
+SDDYRSAnnoLayer = OpenLayers.Class(OpenLayers.Layer.WMTS, {
+    initialize: function() {
+        var A = {
+            name: "东营影像注记（主城区）",
+            url: "http://60.214.233.45/tileservice/DYRasterNoteMap",
+            layer: "影像地图",
+            style: "default",
+            matrixSet: "DYRasterNoteMap",
+            format: "image/png"
+        };
+        OpenLayers.Layer.WMTS.prototype.initialize.apply(this, [A])
+    }
+});

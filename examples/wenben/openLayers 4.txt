@@ -6,3 +6,6 @@ https://blog.csdn.net/qq_35257397/article/details/78520139
 
 open layer4加载wms
 https://blog.csdn.net/qq_31805885/article/details/78819222
+
+基于openlayer4实现地图联动效果
+https://blog.csdn.net/YH20090580118/article/details/79666455
