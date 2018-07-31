@@ -168,6 +168,11 @@
 			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
 			params: {'LAYERS':'dygh:zg2020-tif','TILED':false}
 		});
+		var SLGYSourceWMS = new ol.source.TileWMS({
+			name: '胜利公园片区-东一路东二路北二路北一路片区',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'ShengLiGongYuan-PianQu','TILED':false}
+		});
         
         var sdtdTileWMTS = new ol.layer.Tile({
 			title: "山东矢量图",
@@ -192,6 +197,10 @@
 		var ZxcZG2020TileWMS = new ol.layer.Tile({
 			title: '中心城总体规划2020',
             source: ZxcZG2020SourceWMS
+		});
+		var SLGYTileWMS = new ol.layer.Tile({
+			title: '胜利公园片区控规',
+            source: SLGYSourceWMS
         });
         var sdtdWFS = new ol.layer.Vector({
             
@@ -229,8 +238,8 @@
 		
 		var specialLayers = new ol.layer.Group({
 			title: "专题规划",
-			openInLayerSwitcher: true,
-			layers: [SzKg2010TileWMS]
+			openInLayerSwitcher: false,
+			layers: [SzKg2010TileWMS,SLGYTileWMS]
 		});
 		
 	// A group layer for base layers
@@ -291,9 +300,10 @@
 			view: view,
 			controls: ol.control.defaults().extend
 			([	// Add a new Layerswitcher to the map
-				new ol.control.LayerSwitcher()
+				new ol.control.LayerSwitcher(),
+				new ol.control.MousePosition()
 			]),
-			layers: [ baseLayers,specialLayers, mapbox, labels , ZxcZG2020TileWMS ]
+			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, mapbox, labels ]
 		});
 	// Add a layer switcher outside the map
 	var switcher = new ol.control.LayerSwitcher(
