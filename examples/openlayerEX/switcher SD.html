@@ -183,9 +183,24 @@
 			params: {'LAYERS':'dygh:zg2020-tif','TILED':false}
 		});
 		var SLGYSourceWMS = new ol.source.TileWMS({
-			name: '胜利公园片区-东一路东二路北二路北一路片区',
+			name: '胜利公园片区-用地规划图-东一路东二路北二路北一路',
 			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
 			params: {'LAYERS':'ShengLiGongYuan-PianQu','TILED':false}
+		});
+		var SLYYJSourceWMS = new ol.source.TileWMS({
+			name: '胜利医院片区-用地规划图-近期-东一路东二路潍坊路北二路',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'SLYY-PianQu-J','TILED':false}
+		});
+		var SLYYYSourceWMS = new ol.source.TileWMS({
+			name: '胜利医院片区-用地规划图-近期-东一路东二路潍坊路北二路',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'SLYY-PianQu-Y','TILED':false}
+		});
+		var WHSourceWMS = new ol.source.TileWMS({
+			name: '望海片区-用地规划图-杭州路华山路北二路北一路',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'WangHai-PianQu','TILED':false}
 		});
         
         var sdtdTileWMTS = new ol.layer.Tile({
@@ -222,10 +237,26 @@
             source: ZxcZG2020SourceWMS
 		});
 		var SLGYTileWMS = new ol.layer.Tile({
-			title: '胜利公园片区控规',
+			title: '胜利公园片区',
 			visible: false,
             source: SLGYSourceWMS
         });
+		var SLYYJTileWMS = new ol.layer.Tile({
+			title: '胜利医院片区-近期',
+			visible: false,
+            source: SLYYJSourceWMS
+        });
+		var SLYYYTileWMS = new ol.layer.Tile({
+			title: '胜利医院片区-远期',
+			visible: false,
+            source: SLYYYSourceWMS
+        });
+		var WHTileWMS = new ol.layer.Tile({
+			title: '望海片区',
+			visible: false,
+            source: WHSourceWMS
+        });
+		
         var sdtdWFS = new ol.layer.Vector({
             
             //该source不能使用ol.source.VectorSource({})
@@ -263,9 +294,10 @@
         });
 		
 		var specialLayers = new ol.layer.Group({
-			title: "专题规划",
+			title: "控规",
+			visible: true,
 			openInLayerSwitcher: false,
-			layers: [SzKg2010TileWMS,SLGYTileWMS]
+			layers: [SzKg2010TileWMS,SLGYTileWMS,SLYYJTileWMS,SLYYYTileWMS,WHTileWMS]
 		});
 		
 	// A group layer for base layers
