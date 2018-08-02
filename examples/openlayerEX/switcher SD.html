@@ -202,6 +202,21 @@
 			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
 			params: {'LAYERS':'WangHai-PianQu','TILED':false}
 		});
+		var JJLYSourceWMS = new ol.source.TileWMS({
+			name: '金基林语片区-用地规划图-华山路东一路北二路北一路-2016',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'HuaShanDongYI-BeiYiEr','TILED':false}
+		});
+		var YYKSourceWMS = new ol.source.TileWMS({
+			name: '原油库片区-用地规划图-西四路西二路黄河路南一路',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'YuanYouKu-PianQu','TILED':false}
+		});
+		var HCZSourceWMS = new ol.source.TileWMS({
+			name: '火车站片区-用地规划图-西五路西四路北一路枣庄路',
+			url: "http://localhost:8080/geoserver/dygh/wms?SERVICE=WMS",
+			params: {'LAYERS':'HuoCheZhan-PianQu','TILED':false}
+		});
         
         var sdtdTileWMTS = new ol.layer.Tile({
 			title: "山东矢量图",
@@ -256,6 +271,21 @@
 			visible: false,
             source: WHSourceWMS
         });
+		var JJLYTileWMS = new ol.layer.Tile({
+			title: '金基林语片区',
+			visible: false,
+            source: JJLYSourceWMS
+        });
+		var YYKTileWMS = new ol.layer.Tile({
+			title: '原油库片区',
+			visible: false,
+            source: YYKSourceWMS
+        });
+		var HCZTileWMS = new ol.layer.Tile({
+			title: '火车站片区',
+			visible: false,
+            source: HCZSourceWMS
+        });
 		
         var sdtdWFS = new ol.layer.Vector({
             
@@ -293,11 +323,25 @@
 			minZoom:8
         });
 		
-		var specialLayers = new ol.layer.Group({
-			title: "控规",
+		var specialdLayers = new ol.layer.Group({
+			title: "用地现状",
 			visible: true,
 			openInLayerSwitcher: false,
-			layers: [SzKg2010TileWMS,SLGYTileWMS,SLYYJTileWMS,SLYYYTileWMS,WHTileWMS]
+			layers: [SzKg2010TileWMS,JJLYTileWMS]
+		});
+		
+		var specialLayers = new ol.layer.Group({
+			title: "已批控规",
+			visible: true,
+			openInLayerSwitcher: false,
+			layers: [SzKg2010TileWMS,JJLYTileWMS]
+		});
+		
+		var specialNoLayers = new ol.layer.Group({
+			title: "未批控规",
+			visible: true,
+			openInLayerSwitcher: false,
+			layers: [SLGYTileWMS,SLYYJTileWMS,SLYYYTileWMS,WHTileWMS,YYKTileWMS,HCZTileWMS]
 		});
 		
 	// A group layer for base layers
@@ -363,7 +407,7 @@
 				new ol.control.ScaleLine(),
 				new ol.control.FullScreen(),
 			]),
-			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, mapbox, labels ]
+			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, specialNoLayers, mapbox, labels ]
 		});
 	// Add a layer switcher outside the map
 	var switcher = new ol.control.LayerSwitcher(
