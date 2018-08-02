@@ -9,3 +9,9 @@ https://blog.csdn.net/qq_31805885/article/details/78819222
 
 基于openlayer4实现地图联动效果
 https://blog.csdn.net/YH20090580118/article/details/79666455
+
+Javascript中函数的四种调用方式
+https://www.cnblogs.com/yy95/p/5762625.html
+
+JavaScript的5种调用函数的方法
+https://blog.csdn.net/garfielder007/article/details/54897064
