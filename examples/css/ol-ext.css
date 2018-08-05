@@ -132,6 +132,7 @@
 }
 
 /* Active buttons */
+/* buttons 背景色*/
 .ol-control.ol-bar .ol-toggle.ol-active > button
 {	background: rgba(60, 136, 0, 0.7)
 }

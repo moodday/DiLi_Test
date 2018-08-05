@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!----------------------------------------------------------
+ 
+	Copyright (c) 2015-2018 Jean-Marc VIGLINO, 
+	released under CeCILL-B (french BSD like) licence: http://www.cecill.info/
+	
+------------------------------------------------------------>
+	<title>ol-ext: Control bar (editing example)</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<meta name="description" content="ol.control.Bar is a control bar that contains controls." />
+	<meta name="keywords" content="ol3, control, bar, panel, ol3, openlayers, interaction" />
+
+	<link rel="stylesheet" href="../style.css" />
+
+	<!-- jQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- Openlayers -->
+    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" />
+	<script type="text/javascript" src="https://openlayers.org/en/latest/build/ol.js"></script>
+	
+	<!-- ol-ext -->
+    <link rel="stylesheet" href="../css/ol-ext.css" />
+	<script type="text/javascript" src="../js/ol-ext.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../css/measure.css">
+
+	<style>
+		.ol-button i
+		{	color: inherit;
+		}
+	</style>
+
+</head>
+<body >
+
+	<!-- Map div -->
+	<div id="map" style="width:100%; height:100%;"></div>
+
+	<script type="text/javascript">
+
+		//  Vector layer
+		var vector = new ol.layer.Vector( { 
+			source: new ol.source.Vector(),
+			style: new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color:'rgba(255,255,255,0.5)'
+                    //color: '#EEEE00'
+                }),
+                //定义笔触，画出的线的颜色、宽度等
+                stroke: new ol.style.Stroke({
+                    color: '#e21e0a',
+					lineDash: [10, 10],
+                    width:3
+                }),
+                //画出的各个点
+                image: new ol.style.Circle({
+                    //定义圆的半径
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        color:'#68228B',
+                        //width:5
+                    }),
+                    fill: new ol.style.Fill({
+                        color:'#ffcc33'
+                    })
+                })
+			})
+		})
+
+		// The map
+		var map = new ol.Map
+			({	target: 'map',
+				view: new ol.View
+				({	zoom: 14,
+					center: [270701, 6247637]
+				}),
+				layers: 
+					[	new ol.layer.Tile({ source: new ol.source.OSM() }),
+						vector
+					]
+			});
+
+		//创建一个交互对象
+		var draw = new ol.interaction.Draw({
+            type: 'Polygon',
+            source: vector.getSource(),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    //color: 'rgba(0,0,0,0.5)',
+                    color:'#B23AEE',
+                    //linedash,定义了Line dash pattern，虚线
+                    lineDash: [10, 10],
+                    width:2
+                }),
+                image: new ol.style.Circle({
+                    //鼠标点图标半径
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        //color:'rgba(0,0,0,0.7)'
+                        color:'#1C86EE'
+                    }),
+                    fill: new ol.style.Fill({
+                        //color: 'rgba(255,255,255,0.2)'
+                        color:'#00EE00'
+                    })
+                })
+            })
+        });
+
+        //将交互绘图对象添加到地图中
+        map.addInteraction(draw);
+
+        
+
+		// Main control bar
+		var mainbar = new ol.control.Bar();
+		map.addControl(mainbar);
+
+		// Edit control bar 
+		var editbar = new ol.control.Bar(
+			{	toggleOne: true,	// one control active at the same time
+				group:false			// group controls together
+			});
+		mainbar.addControl(editbar);
+
+		// Add selection tool:
+		//  1- a toggle control with a select interaction
+		//  2- an option bar to delete / get information on the selected feature
+		var sbar = new ol.control.Bar();
+		editbar.addControl (new ol.control.Button(
+				{	html: '<i class="fa fa-times"></i>',
+					title: "删除",
+					handleClick: function() 
+					{	var features = selectCtrl.getInteraction().getFeatures();
+						if (!features.getLength()) info("Select an object first...");
+						else info(features.getLength()+" object(s) deleted.");
+						for (var i=0, f; f=features.item(i); i++) 
+						{	vector.getSource().removeFeature(f);
+						}
+						selectCtrl.getInteraction().getFeatures().clear();
+					}
+                }));
+
+
+		var selectCtrl = new ol.control.Toggle(
+				{	html: '<i class="fa fa-hand-pointer-o"></i>',
+					//title: "Select",
+					title: '选择',
+					interaction: new ol.interaction.Select (),
+					//bar: sbar,
+					autoActivate:true,
+					active:false
+				});
+
+		editbar.addControl ( selectCtrl);
+
+		/*
+        // Add editing tools
+		var pedit = new ol.control.Toggle(
+				{	html: '<i class="fa fa-map-marker" ></i>',
+					title: 'Point',
+					interaction: new ol.interaction.Draw
+					({	type: 'Point',
+						source: vector.getSource()
+					})
+				});
+		editbar.addControl ( pedit );
+        
+
+		var ledit = new ol.control.Toggle(
+				{	html: '<i class="fa fa-share-alt" ></i>',
+					//title: 'LineString',
+					title: '线段',
+					interaction: new ol.interaction.Draw
+					({	type: 'LineString',
+						source: vector.getSource(),
+						// Count inserted points
+						geometryFunction: function(coordinates, geometry) 
+						{   if (geometry) geometry.setCoordinates(coordinates);
+							else geometry = new ol.geom.LineString(coordinates);
+							this.nbpts = geometry.getCoordinates().length;
+							return geometry;
+						}
+                    }),
+				});
+
+		editbar.addControl ( ledit );
+        */
+
+		var fedit = new ol.control.Toggle(
+				{	html: '<i class="fa fa-bookmark-o fa-rotate-270" ></i>',
+					//title: 'Polygon',
+                    title: '多边形',
+                    interaction: draw,
+                    /*
+					interaction: new ol.interaction.Draw
+					({	type: 'Polygon',
+						source: vector.getSource(),
+						style: new ol.style.Style({
+                            
+							fill: new ol.style.Fill({
+                                //color:'rgba(255,255,255,0.2)'
+                                color:'	#fff'
+                            }),
+							
+                            stroke: new ol.style.Stroke({
+                                //color: 'rgba(0,0,0,0.5)',
+                                color:'#B23AEE',
+                                //linedash,定义了Line dash pattern，虚线
+                                lineDash: [10, 10],
+                                width:2
+                            }),
+                            image: new ol.style.Circle({
+                                //鼠标点图标半径
+                                radius: 5,
+                                stroke: new ol.style.Stroke({
+                                    //color:'rgba(0,0,0,0.7)'
+                                    color:'#1C86EE'
+                                }),
+                                fill: new ol.style.Fill({
+                                    //color: 'rgba(255,255,255,0.2)'
+                                    color:'#00EE00'
+                                })
+                            })
+                        }),
+						// Count inserted points
+						geometryFunction: function(coordinates, geometry) 
+						{   this.nbpts = coordinates[0].length;
+							if (geometry) geometry.setCoordinates([coordinates[0].concat([coordinates[0][0]])]);
+							else geometry = new ol.geom.Polygon(coordinates);
+							return geometry;
+						}
+                    }),
+                    */
+					
+					// Options bar ssociated with the control
+					bar: new ol.control.Bar(
+						{	controls:[ new ol.control.TextButton(
+								{	html: 'undo',//'<i class="fa fa-mail-reply"></i>',
+									title: "undo last point",
+									handleClick: function() 
+									{	if (fedit.getInteraction().nbpts>1) fedit.getInteraction().removeLastPoint();
+									}
+								}),
+								new ol.control.TextButton(
+								{	html: 'finish',
+									title: "finish",
+									handleClick: function() 
+									{	// Prevent null objects on finishDrawing
+										if (fedit.getInteraction().nbpts>3) fedit.getInteraction().finishDrawing();
+									}
+								})
+							]
+						})
+					
+				});
+        editbar.addControl ( fedit );
+        
+
+		/*
+        // Add a simple push button to save features
+		var save = new ol.control.Button(
+				{	html: '<i class="fa fa-download"></i>',
+					title: "Save",
+					handleClick: function(e)
+					{	var json= new ol.format.GeoJSON().writeFeatures(vector.getSource().getFeatures());
+						info(json);
+					}
+				});
+		mainbar.addControl ( save );
+        */
+
+		//创建一个WGS84球体对象
+		var wgs84Sphere = new ol.Sphere(6378137);
+        //创建一个当前要绘制的对象
+        var sketch = new ol.Feature();
+        //创建一个帮助提示框对象
+        var helpTooltipElement;
+        //创建一个帮助提示信息对象
+        var helpTooltip;
+        //创建一个测量提示框对象
+        var measureTooltipElement;
+        //创建一个测量提示信息对象
+        var measureTooltip;
+        //继续绘制多边形的提示信息
+        var continuePolygonMsg = 'Click to continue drawing the polygon';
+        //继续绘制线段的提示信息
+        var continueLineMsg = 'Click to continue drawing the line';
+
+        //鼠标移动触发的函数
+        var pointerMoveHandler = function (evt) {
+            //Indicates if the map is currently being dragged.
+            //Only set for POINTERDRAG and POINTERMOVE events. Default is false.
+            //如果是平移地图则直接结束
+            if (evt.dragging) {
+                return;
+            }
+            //帮助提示信息
+            var helpMsg = 'Click to start drawing';
+
+            if (sketch) {
+                //Get the feature's default geometry.-得到绘制对象特征的默认几何形状.
+                //A feature may have any number of named geometries.
+                //获取绘图对象的几何要素
+                var geom = sketch.getGeometry();
+                //如果当前绘制的几何要素是多边形，则将绘制提示信息设置为多边形绘制提示信息
+                //如果当前绘制的几何要素是多线段，则将绘制提示信息设置为多线段绘制提示信息
+                if (geom instanceof ol.geom.Polygon) {   //Polygon geometry.
+                    helpMsg = continuePolygonMsg;
+                } else if (geom instanceof ol.geom.LineString) {
+                    helpMsg = continueLineMsg;
+                }
+            }
+            //设置帮助提示要素的内标签为帮助提示信息
+            helpTooltipElement.innerHTML = helpMsg;
+            //设置帮助提示信息的位置
+            //The coordinate in view projection corresponding to the original browser event.
+            helpTooltip.setPosition(evt.coordinate);
+            //移除帮助提示要素的隐藏样式
+            $(helpTooltipElement).removeClass('hidden');
+        };
+        
+        //触发pointermove事件。on(type, listener, opt_this)，Listen for a certain type of event.
+            map.on('pointermove', pointerMoveHandler);   //pointermove是指？
+
+            //当鼠标移除地图视图的时为帮助提示要素添加隐藏样式，即鼠标移动到地图之外空白处后，隐藏helpTooltipElement
+            //getViewport是ol.map的methods，Get the element that serves as the map viewport，return Viewport.
+            //on是methods，Listen for a certain type of event. on(type, listener)
+            $(map.getViewport()).on('mouseout', function () {
+                $(helpTooltipElement).addClass('hidden');
+            });
+
+		//创建帮助提示框
+            function createHelpTooltip() {
+                //如果已经存在帮助提示框则移除
+                if (helpTooltipElement) {
+                    helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+                }
+                //创建帮助提示要素的div
+                helpTooltipElement = document.createElement('div');
+                //设置帮助提示要素的样式
+                helpTooltipElement.className = 'tooltip hidden';
+                //创建一个帮助提示的覆盖标注
+                helpTooltip = new ol.Overlay({
+                    element: helpTooltipElement,
+                    offset: [15, 0],
+                    positioning:'center-left'
+                });
+                //将帮助提示的覆盖标注添加到地图中
+                map.addOverlay(helpTooltip);
+            }
+            //创建测量提示框
+            function createMeasureTooltip() {
+                //创建测量提示框的div
+                measureTooltipElement = document.createElement('div');
+                measureTooltipElement.setAttribute('id','lengthLabel');
+                //设置测量提示要素的样式
+                measureTooltipElement.className = 'tooltip tooltip-measure';
+                //创建一个测量提示的覆盖标注
+                measureTooltip = new ol.Overlay({
+                    element: measureTooltipElement,
+                    offset: [0, -15],
+                    positioning:'bottom-center'
+                });
+                //将测量提示的覆盖标注添加到地图中
+                map.addOverlay(measureTooltip);
+            }
+
+        //创建测量提示框
+        createMeasureTooltip();
+        //创建帮助提示框
+        createHelpTooltip();
+
+        //定义一个事件监听
+        var listener;
+        //定义一个控制鼠标点击次数的变量
+        var count = 0;
+        //绘制开始事件
+        //on(type, listener),Listen for a certain type of event.
+        draw.on('drawstart', function (evt){
+            //The feature being drawn.
+            sketch = evt.feature;
+                    //提示框的坐标
+                    var tooltipCoord = evt.coordinate;
+                    //监听几何要素的change事件
+                    //Increases the revision counter and dispatches a 'change' event.
+
+                    listener = sketch.getGeometry().on('change', function (evt) {
+                        //The event target.
+                        //获取绘制的几何对象
+                        var geom = evt.target;
+                        //定义一个输出对象，用于记录面积和长度
+                        var output;
+                        if (geom instanceof ol.geom.Polygon) {
+                            map.removeEventListener('singleclick');
+                            map.removeEventListener('dblclick');
+                            //输出多边形的面积
+                            output = formatArea(geom);
+                            //Return an interior point of the polygon.
+                            //获取多边形内部点的坐标
+                            tooltipCoord = geom.getInteriorPoint().getCoordinates();
+                        } else if (geom instanceof ol.geom.LineString) {
+                            //输出多线段的长度
+                            output = formatLength(geom);
+                            //Return the last coordinate of the geometry.
+                            //获取多线段的最后一个点的坐标
+                            tooltipCoord = geom.getLastCoordinate();
+                        }
+
+                        //设置测量提示框的内标签为最终输出结果
+                        measureTooltipElement.innerHTML = output;
+                        //设置测量提示信息的位置坐标
+                        measureTooltip.setPosition(tooltipCoord);
+                    });
+
+                    //地图单击事件
+                    map.on('singleclick', function (evt) {
+                        //设置测量提示信息的位置坐标，用来确定鼠标点击后测量提示框的位置
+                        measureTooltip.setPosition(evt.coordinate);
+                        //如果是第一次点击，则设置测量提示框的文本内容为起点
+                        if (count == 0) {
+                            measureTooltipElement.innerHTML = "起点";
+                        }
+                       //根据鼠标点击位置生成一个点
+                        var point = new ol.geom.Point(evt.coordinate);
+                        //将该点要素添加到矢量数据源中
+                        source.addFeature(new ol.Feature(point));
+                        //更改测量提示框的样式，使测量提示框可见
+                        measureTooltipElement.className = 'tooltip tooltip-static';
+                        //创建测量提示框
+                        createMeasureTooltip();
+                        //点击次数增加
+                        count++;
+                    });
+
+                    //地图双击事件
+                    map.on('dblclick', function (evt) {
+                        //根据
+                        var point = new ol.geom.Point(evt.coordinate);
+                        source.addFeature(new ol.Feature(point));
+                    });
+        }, this);
+
+        draw.on('drawend', function (evt) {},this);
+
+        
+        // Show info
+		function info(i)
+		{	$("#info").html(i||"");
+        }
+        
+	</script>
+
+</body>
+</html>

@@ -36,10 +36,11 @@
             //定义矢量图层
             var vector = new ol.layer.Vector({
                 source: source,
+                //opacity: 0.5,
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color:'rgba(255,255,255,0.2)'
-                        //color: '#EEEE00'
+                        //color:'rgba(255,255,255,0.2)'
+                        color: '#EEEE00'
                     }),
                     //定义笔触，画出的线的颜色、宽度等
                     stroke: new ol.style.Stroke({

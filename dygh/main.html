@@ -1,4 +1,38 @@
-(function() {
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ol-ext: Layerswitcher</title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	    <meta name="description" content="An OL3 layerswitcher." />
+	    <meta name="keywords" content="ol3, layer, layerswitcher, control,jQuery" />
+
+	    <!-- jQuery -->
+	    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+	    <!-- Openlayers -->
+        <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" />
+	    <script type="text/javascript" src="https://openlayers.org/en/latest/build/ol.js"></script>
+	
+	    <!-- ol-ext -->
+        <link rel="stylesheet" href="css/ol-ext.css" />
+	    <script type="text/javascript" src="js/ol-ext.js"></script>
+
+		<link rel="stylesheet" href="css/style.css" />
+		
+	</head>
+	<body>
+		<div id="map" style="width:100%; height:100%;"></div>
+		<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+		
+		<!--
+		<script src="https://openlayers.org/en/v4.6.4/build/ol.js"></script>
+		-->
+		
+		<script src="js/ol-layerswitcher.js"></script>
+        <script type="text/javascript">
+            (function() {
     var projection = ol.proj.get('EPSG:4326');
     var projectionExtent = projection.getExtent();
     var size = ol.extent.getWidth(projectionExtent) / 256;
@@ -306,139 +340,12 @@
 			]),
 			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, specialNoLayers, mapbox ]
         });
-    map.addControl(new ol.control.MousePosition());
-
-    //创建一个交互对象
-		
-        
-    var mainbar = new ol.control.Bar();
-		map.addControl(mainbar);
-
-		// Edit control bar 
-		var editbar = new ol.control.Bar(
-			{	toggleOne: true,	// one control active at the same time
-				group:false			// group controls together
-			});
-		mainbar.addControl(editbar);
-
-		// Add selection tool:
-		//  1- a toggle control with a select interaction
-		//  2- an option bar to delete / get information on the selected feature
-		var sbar = new ol.control.Bar();
-		editbar.addControl (new ol.control.Button(
-				{	html: '<i class="fa fa-times"></i>',
-					title: "删除",
-					handleClick: function() 
-					{	var features = selectCtrl.getInteraction().getFeatures();
-						if (!features.getLength()) info("Select an object first...");
-						else info(features.getLength()+" object(s) deleted.");
-						for (var i=0, f; f=features.item(i); i++) 
-						{	vector.getSource().removeFeature(f);
-						}
-						selectCtrl.getInteraction().getFeatures().clear();
-					}
-                }));
-
-
-		var selectCtrl = new ol.control.Toggle(
-				{	html: '<i class="fa fa-hand-pointer-o"></i>',
-					//title: "Select",
-					title: '选择',
-					interaction: new ol.interaction.Select (),
-					//bar: sbar,
-					autoActivate:true,
-					active:false
-				});
-
-		editbar.addControl ( selectCtrl);
-
-		/*
-        // Add editing tools
-		var pedit = new ol.control.Toggle(
-				{	html: '<i class="fa fa-map-marker" ></i>',
-					title: 'Point',
-					interaction: new ol.interaction.Draw
-					({	type: 'Point',
-						source: vector.getSource()
-					})
-				});
-		editbar.addControl ( pedit );
-        
-
-		var ledit = new ol.control.Toggle(
-				{	html: '<i class="fa fa-share-alt" ></i>',
-					//title: 'LineString',
-					title: '线段',
-					interaction: new ol.interaction.Draw
-					({	type: 'LineString',
-						source: vector.getSource(),
-						// Count inserted points
-						geometryFunction: function(coordinates, geometry) 
-						{   if (geometry) geometry.setCoordinates(coordinates);
-							else geometry = new ol.geom.LineString(coordinates);
-							this.nbpts = geometry.getCoordinates().length;
-							return geometry;
-						}
-                    }),
-				});
-
-		editbar.addControl ( ledit );
-        */
-
-		var fedit = new ol.control.Toggle(
-				{	html: '<i class="fa fa-bookmark-o fa-rotate-270" ></i>',
-					//title: 'Polygon',
-                    title: '多边形',
-                    interaction: draw,
-                    /*
-					interaction: new ol.interaction.Draw
-					({	type: 'Polygon',
-						source: vector.getSource(),
-						style: new ol.style.Style({
-                            
-							fill: new ol.style.Fill({
-                                //color:'rgba(255,255,255,0.2)'
-                                color:'	#fff'
-                            }),
-							
-                            stroke: new ol.style.Stroke({
-                                //color: 'rgba(0,0,0,0.5)',
-                                color:'#B23AEE',
-                                //linedash,定义了Line dash pattern，虚线
-                                lineDash: [10, 10],
-                                width:2
-                            }),
-                            image: new ol.style.Circle({
-                                //鼠标点图标半径
-                                radius: 5,
-                                stroke: new ol.style.Stroke({
-                                    //color:'rgba(0,0,0,0.7)'
-                                    color:'#1C86EE'
-                                }),
-                                fill: new ol.style.Fill({
-                                    //color: 'rgba(255,255,255,0.2)'
-                                    color:'#00EE00'
-                                })
-                            })
-                        }),
-						// Count inserted points
-						geometryFunction: function(coordinates, geometry) 
-						{   this.nbpts = coordinates[0].length;
-							if (geometry) geometry.setCoordinates([coordinates[0].concat([coordinates[0][0]])]);
-							else geometry = new ol.geom.Polygon(coordinates);
-							return geometry;
-						}
-                    }),
-                    */
-					
-					// Options bar ssociated with the control
-
-					
-				});
-        editbar.addControl ( fedit );
-    // Show info
-		function info(i)
-		{	$("#info").html(i||"");
-        }
+        map.addControl(new ol.control.MousePosition())
 
 })();
+
+        </script>
+		
+
+	</body>
+</html>
