@@ -9,3 +9,7 @@ https://www.cnblogs.com/chris-oil/p/4862083.html
 
 script三种加载方式
 https://blog.csdn.net/fuzhongmin05/article/details/72801168
+
+FontAwesome 图标样式 CSS 参考清单
+https://vxhly.github.io/2016/09/font-awesome-icons/
+http://www.runoob.com/font-awesome/fontawesome-icons-hand.html

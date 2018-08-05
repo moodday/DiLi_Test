@@ -291,7 +291,35 @@
 				"<a href='http://www.brgm.fr/'>&copy; Brgm</a>"
 			]
 		})
-	});
+    });
+    //  Vector layer
+		var vector = new ol.layer.Vector( { 
+			source: new ol.source.Vector(),
+			style: new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color:'rgba(255,255,255,0.5)'
+                    //color: '#EEEE00'
+                }),
+                //定义笔触，画出的线的颜色、宽度等
+                stroke: new ol.style.Stroke({
+                    color: '#e21e0a',
+					lineDash: [10, 10],
+                    width:3
+                }),
+                //画出的各个点
+                image: new ol.style.Circle({
+                    //定义圆的半径
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        color:'#68228B',
+                        //width:5
+                    }),
+                    fill: new ol.style.Fill({
+                        color:'#ffcc33'
+                    })
+                })
+			})
+		});
 
 	// The Map
 	var map = new ol.Map
@@ -304,11 +332,40 @@
 				new ol.control.ScaleLine(),
 				new ol.control.FullScreen(),
 			]),
-			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, specialNoLayers, mapbox ]
+			layers: [ baseLayers , ZxcZG2020TileWMS , specialLayers, specialNoLayers, mapbox ,vector]
         });
     map.addControl(new ol.control.MousePosition());
 
+    
     //创建一个交互对象
+		var draw = new ol.interaction.Draw({
+            type: 'Polygon',
+            source: vector.getSource(),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    //color: 'rgba(0,0,0,0.5)',
+                    color:'#B23AEE',
+                    //linedash,定义了Line dash pattern，虚线
+                    lineDash: [10, 10],
+                    width:2
+                }),
+                image: new ol.style.Circle({
+                    //鼠标点图标半径
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        //color:'rgba(0,0,0,0.7)'
+                        color:'#1C86EE'
+                    }),
+                    fill: new ol.style.Fill({
+                        //color: 'rgba(255,255,255,0.2)'
+                        color:'#00EE00'
+                    })
+                })
+            })
+        });
+
+        //将交互绘图对象添加到地图中
+        map.addInteraction(draw);
 		
         
     var mainbar = new ol.control.Bar();
@@ -350,13 +407,23 @@
 					active:false
 				});
 
-		editbar.addControl ( selectCtrl);
+        editbar.addControl ( selectCtrl);
+        
+        /**测试 */
+        /*
+        var pCtrl = new ol.control.Toggle({
+            html: '<i class="fa fa-bookmark-o fa-rotate-270" ></i>',
+            title: '测试',
+            //interaction: draw,
+        });
+        editbar.addControl ( pCtrl);
+        */
 
-		/*
+		
         // Add editing tools
 		var pedit = new ol.control.Toggle(
 				{	html: '<i class="fa fa-map-marker" ></i>',
-					title: 'Point',
+					title: '点',
 					interaction: new ol.interaction.Draw
 					({	type: 'Point',
 						source: vector.getSource()
@@ -383,7 +450,7 @@
 				});
 
 		editbar.addControl ( ledit );
-        */
+        
 
 		var fedit = new ol.control.Toggle(
 				{	html: '<i class="fa fa-bookmark-o fa-rotate-270" ></i>',
