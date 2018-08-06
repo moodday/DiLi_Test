@@ -294,6 +294,7 @@
     });
     //  Vector layer
 		var vector = new ol.layer.Vector( { 
+            title: '画板',
 			source: new ol.source.Vector(),
 			style: new ol.style.Style({
                 fill: new ol.style.Fill({
@@ -503,6 +504,19 @@
 					
 				});
         editbar.addControl ( fedit );
+
+        /*
+        // Add a simple push button to save features
+		var save = new ol.control.Button(
+            {	html: '<i class="fa fa-download"></i>',
+                title: "保存",
+                handleClick: function(e)
+                {	var json= new ol.format.GeoJSON().writeFeatures(vector.getSource().getFeatures());
+                    info(json);
+                }
+            });
+    mainbar.addControl ( save );
+    */
     // Show info
 		function info(i)
 		{	$("#info").html(i||"");

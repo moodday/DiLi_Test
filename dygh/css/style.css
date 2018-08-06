@@ -246,3 +246,12 @@ i.icss-book:after {
     box-shadow: .13em -.15em 0 -.05em,
         .51em -.33em 0 -.05em;
 }
+
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+}
