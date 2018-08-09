@@ -31,7 +31,7 @@
               // 创建一个使用Open Street Map地图源的瓦片图层
               new ol.layer.Tile({
                   source: new ol.source.OSM({
-                      //projection: 'EPSG:3857'
+                      //projection: 'EPSG:4326'
                     }
                       
                   )}),
@@ -53,7 +53,7 @@
             view: new ol.View({
                 //center: [118.680934, 37.440451],
               center:ol.proj.transform([118.680934, 37.440451], 'EPSG:4326', 'EPSG:3857'),    // 定义地图显示中心于经度0度，纬度0度处，在世界地图方面，EPSG:4326是比较著名的一个，因为由美国主导的GPS系统就是在用它，它还有一个名气更大的别名叫作WGS84，WGS(World Geodetic System)是世界大地测量系统的意思，由于是1984年定义的，所以叫WGS84，之前的版本还有WGS72、WGS66、WGS60。另一个比较知名的编码是EPSG:3857，这也是一张世界地图，目前主要是各大互联网地图公司以它为基准，例如Google地图，Microsoft地图都在用它。所有这些EPSG编码的具体含义都可以在这个网站上查到。
-              zoom: 5            // 并且定义地图显示层级为2
+              zoom: 15            // 并且定义地图显示层级为2
             }),
             // 让id为map的div作为地图的容器
             target: 'map'    
